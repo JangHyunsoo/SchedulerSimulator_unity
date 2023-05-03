@@ -52,7 +52,7 @@ public class Processor
             if (cur_process_.is_dead)
             {
                 cur_process_.setEndTime(_total_tick + 1);
-                UIManager.instance.finish_process_table_ui.updateProcess(cur_process);
+                // UIManager.instance.finish_process_table_ui.updateProcess(cur_process);
                 cur_process_ = null;
                 is_run_ = false;
             }

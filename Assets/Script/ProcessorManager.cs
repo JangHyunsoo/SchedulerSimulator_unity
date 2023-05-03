@@ -153,6 +153,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
             int history = processor_arr_[i].getHistory(_cur_tick);
             UIManager.instance.processor_chart_ui.addChartUnit(history);
         }
+        UIManager.instance.processor_chart_ui.addTick();
         UIManager.instance.processor_chart_ui.autoSize();
     }
 

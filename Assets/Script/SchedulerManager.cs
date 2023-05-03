@@ -22,11 +22,14 @@ public class SchedulerManager : Singleton<SchedulerManager>
 
 	public void step()
     {
-		cur_scheduler_.tick(total_tick_);
-		ProcessorManager.instance.appendGanttChart(total_tick_++);
+		if (!isDone())
+        {
+			cur_scheduler_.tick(total_tick_);
+			ProcessorManager.instance.appendGanttChart(total_tick_++);
+		}
 	}
 
-	public void run()
+	public void jump()
 	{
 		while (!isDone())
 		{

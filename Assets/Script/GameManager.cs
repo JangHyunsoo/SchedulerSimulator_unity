@@ -23,11 +23,6 @@ public class GameManager : Singleton<GameManager>
         SchedulerManager.instance.init();
         UIManager.instance.init();
     }
-
-    public void run()
-    {
-        SchedulerManager.instance.run();
-    }
     
     public void restart()
     {
