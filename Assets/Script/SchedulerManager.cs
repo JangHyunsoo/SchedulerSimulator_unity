@@ -20,13 +20,19 @@ public class SchedulerManager : Singleton<SchedulerManager>
 		assignScheduler(schedule_way_);
 	}
 
+	public void step()
+    {
+		cur_scheduler_.tick(total_tick_);
+		ProcessorManager.instance.appendGanttChart(total_tick_++);
+	}
+
 	public void run()
 	{
 		while (!isDone())
 		{
-			cur_scheduler_.tick(total_tick_++);
+			cur_scheduler_.tick(total_tick_);
+			ProcessorManager.instance.appendGanttChart(total_tick_++);
 		}
-		ProcessorManager.instance.updateGanttChart(total_tick_);
 	}
 
 	private bool isDone()

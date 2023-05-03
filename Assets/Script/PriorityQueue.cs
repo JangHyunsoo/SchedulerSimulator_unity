@@ -27,7 +27,7 @@ public class PriorityQueue<T>
             return;
         }
         for (int i = count; --i > -1;)
-            if (comparer.Compare(nowList[i], data) == 1)
+            if (comparer.Compare(nowList[i], data) > 0)
             {
                 index = i + 1;
                 break;

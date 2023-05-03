@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProcessorChart : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class ProcessorChart : MonoBehaviour
     private GameObject chart_unit_prefab_;
     [SerializeField]
     private Transform chart_unit_parent_;
+    [SerializeField]
+    private RectTransform chart_rect_transform_;
+    [SerializeField]
+    private ScrollRect char_scroll_rect_;
 
     private Dictionary<int, Color> chart_color_table = new Dictionary<int, Color>();
     private Queue<Transform> chart_unit_queue_ = new Queue<Transform>();
@@ -18,19 +23,20 @@ public class ProcessorChart : MonoBehaviour
         processor_size = ProcessorManager.instance.processor_count;
         chart_color_table.Clear();
         chart_unit_queue_.Clear();
-        chart_color_table[-1] = Color.clear;
+
+        if (processor_size > 4)
+        {
+            var rect = char_scroll_rect_.content.sizeDelta;
+            float n_height = rect.y * 4f / processor_size;
+            char_scroll_rect_.content.sizeDelta = new Vector2(rect.x, n_height);
+        }
     }
 
     public void addChartUnit(int _history)
     {
         GameObject go = GameObject.Instantiate(chart_unit_prefab_);
-        if (chart_color_table.ContainsKey(_history))
-        {
-            chart_color_table[_history] = new Color(Random.RandomRange(0, 255), Random.RandomRange(0, 255), Random.RandomRange(0, 255));
-        }
-        go.GetComponent<ChartUnit>().setColor(chart_color_table[_history]);
+        go.GetComponent<ChartUnit>().setColor(JobSimulator.instance.getProcessColor(_history));
         go.transform.SetParent(chart_unit_parent_);
-        go.active = false;
         chart_unit_queue_.Enqueue(go.transform);
     }
 
@@ -42,22 +48,13 @@ public class ProcessorChart : MonoBehaviour
         }
     }
 
-    public void stepChart()
+    public void autoSize()
     {
-        int cur_count = processor_size;
+        float rect_width = chart_unit_queue_.Count / processor_size * char_scroll_rect_.content.rect.width;
+        var rect = chart_rect_transform_.rect;
 
-        while (chart_unit_queue_.Count != 0 && cur_count != 0)
-        {
-            chart_unit_queue_.Dequeue().gameObject.active = true;
-            cur_count--;
-        }
-    }
+        chart_rect_transform_.sizeDelta = new Vector2(rect_width, chart_rect_transform_.sizeDelta.y);
 
-    public void jumpChart()
-    {
-        while (chart_unit_queue_.Count != 0)
-        {
-            chart_unit_queue_.Dequeue().gameObject.active = true;
-        }
+        char_scroll_rect_.horizontalNormalizedPosition = 1f;
     }
 }

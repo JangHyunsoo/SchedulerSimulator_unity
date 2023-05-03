@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class ChartUnit : MonoBehaviour
 {
+    public void setProcess(Process process)
+    {
+
+    }
+
     public void setColor(Color _color)
     {
         GetComponent<Image>().color = _color;

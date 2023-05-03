@@ -24,11 +24,11 @@ public class ProcessorManager : Singleton<ProcessorManager>
             processor_arr_[i] = new Processor(i, ProcessorType.EFFIC);
         }
     }
-    public void tick()
+    public void tick(int total_tick)
     {
         foreach (Processor processor in processor_arr_)
         {
-            processor.tick();
+            processor.tick(total_tick);
         }
     }
 
@@ -61,6 +61,43 @@ public class ProcessorManager : Singleton<ProcessorManager>
                 return true;
         }
         return false;
+    }
+
+    public int countQuantumAvailable()
+    {
+        int count = 0;
+        foreach (var processor in processor_arr_)
+        {
+            if (!processor.isRunQuantum())
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public Processor getAvailableProcessor()
+    {
+        foreach (var processor in processor_arr_)
+        {
+            if (!processor.is_run)
+            {
+                return processor;
+            }
+        }
+        return null;
+    }
+
+    public Processor getQuantumAvailableProcessor()
+    {
+        foreach (var processor in processor_arr_)
+        {
+            if (!processor.isRunQuantum())
+            {
+                return processor;
+            }
+        }
+        return null;
     }
 
     public KeyValuePair<int, int> maxCurBurstTime()
@@ -109,6 +146,16 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return false;
     }
 
+    public void appendGanttChart(int _cur_tick)
+    {
+        for (int i = 0; i < processor_count; i++)
+        {
+            int history = processor_arr_[i].getHistory(_cur_tick);
+            UIManager.instance.processor_chart_ui.addChartUnit(history);
+        }
+        UIManager.instance.processor_chart_ui.autoSize();
+    }
+
     public void updateGanttChart(int _total_tick)
     {
         for (int i = 0; i < _total_tick; i++)
@@ -119,6 +166,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
                 UIManager.instance.processor_chart_ui.addChartUnit(history);
             }
         }
-
+        UIManager.instance.processor_chart_ui.autoSize();
     }
 }

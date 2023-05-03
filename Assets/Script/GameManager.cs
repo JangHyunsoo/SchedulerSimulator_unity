@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
     private void Start()
     {
         init();
-        run();
+        // run();
     }
 
     private void init()
@@ -21,12 +22,15 @@ public class GameManager : Singleton<GameManager>
         ProcessorManager.instance.init();
         SchedulerManager.instance.init();
         UIManager.instance.init();
-
-        
     }
 
     public void run()
     {
         SchedulerManager.instance.run();
+    }
+    
+    public void restart()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }

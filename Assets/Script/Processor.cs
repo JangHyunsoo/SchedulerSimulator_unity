@@ -36,15 +36,23 @@ public class Processor
         addProcess(_next);
         return prev;
     }
+    
+    public bool isRunQuantum()
+    {
+        if (cur_process_ == null) return false;
+        else return is_run_ && !cur_process_.end_quantum;
+    }
 
-    public void tick()
+    public void tick(int _total_tick)
     {
         if (is_run)
         {
-            cur_process_.tick(processor_type_ == ProcessorType.EFFIC ? 1 : 2);
+            cur_process_.tick(_total_tick, processor_type_ == ProcessorType.EFFIC ? 1 : 2);
             history_list_.Add(cur_process_.no);
             if (cur_process_.is_dead)
             {
+                cur_process_.setEndTime(_total_tick + 1);
+                UIManager.instance.finish_process_table_ui.updateProcess(cur_process);
                 cur_process_ = null;
                 is_run_ = false;
             }

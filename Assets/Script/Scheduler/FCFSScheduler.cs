@@ -27,6 +27,6 @@ public class FCFSScheduler : Scheduler
             psr_mgr.addProcess(process_queue_.Dequeue());
         }
 
-        psr_mgr.tick();
+        psr_mgr.tick(_total_tick);
     }
 }
