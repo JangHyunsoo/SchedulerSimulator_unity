@@ -17,7 +17,9 @@ public class SchedulerManager : Singleton<SchedulerManager>
     public void init()
     {
         total_tick_ = 0;
-		assignScheduler(schedule_way_);
+        assignScheduler(schedule_way_);
+		UIManager.instance.chart_process_queue_ui.init();
+		queuing();
 	}
 
 	public void step()
@@ -36,6 +38,11 @@ public class SchedulerManager : Singleton<SchedulerManager>
 			cur_scheduler_.tick(total_tick_);
 			ProcessorManager.instance.appendGanttChart(total_tick_++);
 		}
+	}
+
+	public void queuing()
+    {
+		cur_scheduler_.queuing(total_tick);
 	}
 
 	private bool isDone()
@@ -67,6 +74,4 @@ public class SchedulerManager : Singleton<SchedulerManager>
 				break;
 		}
 	}
-
-    
 }

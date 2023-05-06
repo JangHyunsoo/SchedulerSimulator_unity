@@ -17,7 +17,6 @@ public class FinishProcessTable : MonoBehaviour
     {
         List<Transform> del_list = new List<Transform>();
 
-        // remove job slot child
         for (int i = 0; i < process_slot_parent_.childCount; i++)
         {
             del_list.Add(process_slot_parent_.GetChild(i));

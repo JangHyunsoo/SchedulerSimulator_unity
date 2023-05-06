@@ -69,4 +69,9 @@ public class PriorityQueue<T>
             return nowList.Count == 0;
         }
     }
+
+    public T[] ToArray()
+    {
+        return nowList.ToArray();
+    }
 }

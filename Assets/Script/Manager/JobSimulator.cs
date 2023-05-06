@@ -10,6 +10,7 @@ public class JobSimulator : Singleton<JobSimulator>
     private Job[] job_arr_;
     private Queue<Job> job_queue_ = new Queue<Job>();
 
+    public int job_size { get => job_arr_.Length; }
     public bool is_empty { get => job_queue_.Count == 0; }
     public bool is_done { get => is_empty; }
 

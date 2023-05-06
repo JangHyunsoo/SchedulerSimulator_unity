@@ -24,10 +24,8 @@ public class HRRNScheduler : Scheduler
         process_queue_.clear();
     }
 
-    public override void logic(int _total_tick)
+    public override void queuing(int _total_tick)
     {
-        var psr_mgr = ProcessorManager.instance;
-
         Queue<Process> arrival_process_queue = getArrivalProcess(_total_tick);
         PriorityQueue<Process> temp_queue_ = new PriorityQueue<Process>(new HRRNCompare());
 
@@ -47,11 +45,20 @@ public class HRRNScheduler : Scheduler
 
         process_queue_ = temp_queue_;
 
+        UIManager.instance.chart_process_queue_ui.updateUI(process_queue_.ToArray());
+    }
+
+    public override void logic(int _total_tick)
+    {
+        var psr_mgr = ProcessorManager.instance;
+
         while (psr_mgr.canUse() && process_queue_.count != 0)
         {
             psr_mgr.addProcess(process_queue_.pop());
         }
 
         psr_mgr.tick(_total_tick);
+
+        queuing(_total_tick);
     }
 }

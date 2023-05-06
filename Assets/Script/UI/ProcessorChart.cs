@@ -56,7 +56,7 @@ public class ProcessorChart : MonoBehaviour
 
         if (processor_size > 4)
         {
-            float rect_height = processor_size * (80 + 2) + 2;
+            float rect_height = processor_size * (80 + 4) + 2;
             var process_rect = chart_process_rect_transform_.rect;
 
             chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, rect_height);
@@ -100,7 +100,7 @@ public class ProcessorChart : MonoBehaviour
 
     public void autoSize()
     {
-        float rect_width = tick_list_.Count * (80 + 2) + 2;
+        float rect_width = tick_list_.Count * (80 + 4) + 2;
         var process_rect = chart_process_rect_transform_.rect;
 
         chart_process_rect_transform_.sizeDelta = new Vector2(rect_width, chart_process_rect_transform_.sizeDelta.y);
