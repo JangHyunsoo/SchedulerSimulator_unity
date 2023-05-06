@@ -5,6 +5,7 @@ using UnityEngine;
 public class SchedulerManager : Singleton<SchedulerManager>
 {
     private int total_tick_;
+	private int complete_process_ = 0;
     private Scheduler cur_scheduler_;
 
 	[SerializeField]
@@ -47,10 +48,9 @@ public class SchedulerManager : Singleton<SchedulerManager>
 
 	private bool isDone()
     {
-		bool psr_mgr_done = ProcessorManager.instance.isDone();
-		bool shd_mgr_done = JobSimulator.instance.is_done;
-		return psr_mgr_done && shd_mgr_done;
+		return JobSimulator.instance.job_size == complete_process_;
 	}
+
 	private void assignScheduler(ScheduleWay _way)
     {
 		switch (_way)
@@ -73,5 +73,10 @@ public class SchedulerManager : Singleton<SchedulerManager>
 			default:
 				break;
 		}
+	}
+
+	public void completeProcess()
+    {
+		complete_process_++;
 	}
 }
