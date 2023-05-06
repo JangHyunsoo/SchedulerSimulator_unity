@@ -58,7 +58,7 @@ public class FinishProcessTable : MonoBehaviour
 
     public void autoSize()
     {
-        float rect_height = process_slot_list_.Count * 50;
+        float rect_height = process_slot_list_.Count * 42 + 2;
         var rect = process_table_rect_.rect;
 
         process_table_rect_.sizeDelta = new Vector2(process_table_rect_.sizeDelta.x, rect_height);

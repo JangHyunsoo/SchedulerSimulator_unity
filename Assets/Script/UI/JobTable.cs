@@ -31,6 +31,12 @@ public class JobTable : MonoBehaviour
 
         del_list.Clear();
         job_slot_list_.Clear();
+
+        var job_list = JobSimulator.instance.job_arr;
+        foreach (var job in job_list)
+        {
+            addJob(job);
+        }
     }
     
     public void addJob(Job _job)
@@ -45,7 +51,7 @@ public class JobTable : MonoBehaviour
 
     public void autoSize()
     {
-        float rect_height = job_slot_list_.Count * 50;
+        float rect_height = job_slot_list_.Count * 42 + 2;
         var rect = job_table_rect_.rect;
  
         job_table_rect_.sizeDelta = new Vector2(job_table_rect_.sizeDelta.x, rect_height);
