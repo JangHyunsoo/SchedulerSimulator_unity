@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ProcessorChart : MonoBehaviour
 {
+    [Header("Process")]
     [SerializeField]
     private GameObject chart_process_unit_prefab_;
     [SerializeField]
@@ -13,7 +14,10 @@ public class ProcessorChart : MonoBehaviour
     private RectTransform chart_process_rect_transform_;
     [SerializeField]
     private ScrollRect chart_process_scroll_rect_;
+    [SerializeField]
+    private GridLayoutGroup chart_process_grid_;
 
+    [Header("Processor")]
     [SerializeField]
     private GameObject chart_processor_unit_prefab_;
     [SerializeField]
@@ -22,7 +26,22 @@ public class ProcessorChart : MonoBehaviour
     private RectTransform chart_processor_rect_transform_;
     [SerializeField]
     private ScrollRect chart_procesesor_scroll_rect_;
+    [SerializeField]
+    private GridLayoutGroup chart_processor_grid_;
 
+    [Header("Background")]
+    [SerializeField]
+    private GameObject chart_background_unit_prefab_;
+    [SerializeField]
+    private Transform chart_background_unit_parent_;
+    [SerializeField]
+    private RectTransform chart_background_rect_transform_;
+    [SerializeField]
+    private ScrollRect chart_background_scroll_rect_;
+    [SerializeField]
+    private GridLayoutGroup chart_background_grid_;
+
+    [Header("Tick")]
     [SerializeField]
     private GameObject chart_tick_unit_prefab_;
     [SerializeField]
@@ -31,6 +50,8 @@ public class ProcessorChart : MonoBehaviour
     private RectTransform chart_tick_rect_transfrom_;
     [SerializeField]
     private ScrollRect chart_tick_scroll_rect_;
+    [SerializeField]
+    private GridLayoutGroup chart_tick_grid_;
 
     [SerializeField]
     private Color start_color;
@@ -40,7 +61,10 @@ public class ProcessorChart : MonoBehaviour
     private Dictionary<int, Color> chart_color_table = new Dictionary<int, Color>();
     private List<Transform> chart_unit_queue_ = new List<Transform>();
     private List<Transform> tick_list_ = new List<Transform>();
-    private int processor_size = 4;
+    private int processor_size;
+
+    private bool height_auto_ = true;
+    private bool width_auto_ = false;
 
     public void init()
     {
@@ -54,15 +78,59 @@ public class ProcessorChart : MonoBehaviour
             addProcessor(color);
         }
 
+        autoHeightSize();
+    }
+
+    public void autoHeightSize()
+    {
         if (processor_size > 4)
         {
-            float rect_height = processor_size * (80 + 4) + 2;
+            int width_spacing = width_auto_ ? 0 : 4;
+            if (!height_auto_)
+            {
+                chart_process_grid_.spacing = new Vector2(width_spacing, 4);
+                chart_processor_grid_.spacing = new Vector2(0, 4);
+                chart_background_grid_.spacing = new Vector2(0, 4);
+
+                float rect_height = Mathf.Max(processor_size, 4) * (80 + 4);
+                var process_rect = chart_process_rect_transform_.rect;
+
+                chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, rect_height);
+                chart_processor_rect_transform_.sizeDelta = new Vector2(chart_processor_rect_transform_.sizeDelta.x, rect_height);
+                chart_background_rect_transform_.sizeDelta = new Vector2(chart_background_rect_transform_.sizeDelta.x, rect_height);
+            }
+            else
+            {
+                chart_process_grid_.spacing = new Vector2(width_spacing, 0);
+                chart_processor_grid_.spacing = new Vector2(0, 0);
+                chart_background_grid_.spacing = new Vector2(0, 0);
+
+                float process_height_size = chart_processor_rect_transform_.sizeDelta.y / processor_size;
+                chart_process_grid_.cellSize = new Vector2(chart_process_grid_.cellSize.x, process_height_size);
+                chart_processor_grid_.cellSize = new Vector2(chart_processor_grid_.cellSize.x, process_height_size);
+                chart_background_grid_.cellSize = new Vector2(chart_background_grid_.cellSize.x, process_height_size);
+
+                float rect_height = processor_size * process_height_size;
+                var process_rect = chart_process_rect_transform_.rect;
+
+                chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, rect_height);
+                chart_processor_rect_transform_.sizeDelta = new Vector2(chart_processor_rect_transform_.sizeDelta.x, rect_height);
+                chart_background_rect_transform_.sizeDelta = new Vector2(chart_background_rect_transform_.sizeDelta.x, rect_height);
+            }
+        }
+        else
+        {
+            int width_spacing = width_auto_ ? 0 : 4;
+            chart_process_grid_.spacing = new Vector2(width_spacing, 4);
+            chart_processor_grid_.spacing = new Vector2(0, 4);
+            chart_background_grid_.spacing = new Vector2(0, 4);
+
+            float rect_height = processor_size * (80 + 4);
             var process_rect = chart_process_rect_transform_.rect;
 
             chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, rect_height);
             chart_processor_rect_transform_.sizeDelta = new Vector2(chart_processor_rect_transform_.sizeDelta.x, rect_height);
-
-            //chart_process_rect_transform_.gameObject.GetComponent<GridLayoutGroup>().
+            chart_background_rect_transform_.sizeDelta = new Vector2(chart_background_rect_transform_.sizeDelta.x, rect_height);
         }
     }
 
@@ -76,9 +144,11 @@ public class ProcessorChart : MonoBehaviour
 
     public void addProcessor(Color color)
     {
-        GameObject go = GameObject.Instantiate(chart_processor_unit_prefab_);
-        go.transform.SetParent(chart_processor_unit_parent_);
-        go.GetComponent<ChartProcessorUnit>().setColor(color);
+        var go1 = GameObject.Instantiate(chart_processor_unit_prefab_);
+        go1.transform.SetParent(chart_processor_unit_parent_);
+        var go2 = GameObject.Instantiate(chart_background_unit_prefab_);
+        go2.transform.SetParent(chart_background_unit_parent_);
+        go2.GetComponent<Image>().color = color;
     }
 
     public void assginChartUnit(List<int> _progress_history)
@@ -98,7 +168,7 @@ public class ProcessorChart : MonoBehaviour
         tick_list_.Add(go.transform);
     }
 
-    public void autoSize()
+    public void autoWidthSize()
     {
         float rect_width = tick_list_.Count * (80 + 4) + 2;
         var process_rect = chart_process_rect_transform_.rect;
@@ -118,5 +188,6 @@ public class ProcessorChart : MonoBehaviour
     public void syncProcessorScroll(Vector2 vector2)
     {
         chart_procesesor_scroll_rect_.verticalNormalizedPosition = vector2.y;
+        chart_background_scroll_rect_.verticalNormalizedPosition = vector2.y;
     }
 }

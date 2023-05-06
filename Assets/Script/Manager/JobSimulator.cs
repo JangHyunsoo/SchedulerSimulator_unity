@@ -24,12 +24,12 @@ public class JobSimulator : Singleton<JobSimulator>
 
     public void init()
     {
-        job_arr_ = new Job[30];
+        job_arr_ = new Job[300];
         job_queue_.Clear();
 
         color_table[-1] = Color.clear;
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < job_arr_.Length; i++)
         {
             addJobByRandom();
             color_table[i] = new Color(Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f));

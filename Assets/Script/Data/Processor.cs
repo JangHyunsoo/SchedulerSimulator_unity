@@ -54,6 +54,7 @@ public class Processor
             {
                 cur_process_.setEndTime(_total_tick + 1);
                 UIManager.instance.finish_process_table_ui.updateProcess(cur_process);
+                SchedulerManager.instance.completeProcess();
                 cur_process_ = null;
                 is_run_ = false;
             }

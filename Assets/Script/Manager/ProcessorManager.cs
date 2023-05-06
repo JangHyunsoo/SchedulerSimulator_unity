@@ -154,7 +154,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
             UIManager.instance.processor_chart_ui.addChartUnit(history);
         }
         UIManager.instance.processor_chart_ui.addTick();
-        UIManager.instance.processor_chart_ui.autoSize();
+        UIManager.instance.processor_chart_ui.autoWidthSize();
     }
 
     public void updateGanttChart(int _total_tick)
@@ -167,6 +167,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
                 UIManager.instance.processor_chart_ui.addChartUnit(history);
             }
         }
-        UIManager.instance.processor_chart_ui.autoSize();
+        UIManager.instance.processor_chart_ui.autoWidthSize();
     }
 }
