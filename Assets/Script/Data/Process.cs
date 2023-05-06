@@ -55,7 +55,7 @@ public class Process
 	{
 		if(response_time_ == -1)
         {
-			response_time_ = _total_tick + 1;
+			response_time_ = _total_tick;
         }
 		cur_burst_time_ -= work;
 		remain_quantum_time_ -= 1;
