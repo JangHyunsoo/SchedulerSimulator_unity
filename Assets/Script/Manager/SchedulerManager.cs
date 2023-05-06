@@ -29,6 +29,7 @@ public class SchedulerManager : Singleton<SchedulerManager>
         {
 			cur_scheduler_.tick(total_tick_);
 			ProcessorManager.instance.appendGanttChart(total_tick_++);
+			cur_scheduler_.queuing(total_tick);
 		}
 	}
 
@@ -38,6 +39,7 @@ public class SchedulerManager : Singleton<SchedulerManager>
 		{
 			cur_scheduler_.tick(total_tick_);
 			ProcessorManager.instance.appendGanttChart(total_tick_++);
+			cur_scheduler_.queuing(total_tick);
 		}
 	}
 

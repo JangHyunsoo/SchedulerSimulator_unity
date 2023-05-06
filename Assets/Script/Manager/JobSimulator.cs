@@ -24,7 +24,7 @@ public class JobSimulator : Singleton<JobSimulator>
 
     public void init()
     {
-        job_arr_ = new Job[300];
+        job_arr_ = new Job[50];
         job_queue_.Clear();
 
         color_table[-1] = Color.clear;
@@ -76,7 +76,7 @@ public class JobSimulator : Singleton<JobSimulator>
 
         while (job_queue_.Count != 0)
         {
-            if (job_queue_.Peek().arrival_time <= _total_tick)
+            if (job_queue_.Peek().arrival_time == _total_tick)
             {
                 ret.Enqueue(job_queue_.Dequeue());
             }

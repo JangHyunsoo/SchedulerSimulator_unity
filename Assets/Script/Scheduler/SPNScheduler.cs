@@ -45,7 +45,5 @@ public class SPNScheduler : Scheduler
         }
 
         psr_mgr.tick(_total_tick);
-
-        queuing(_total_tick);
     }
 }
