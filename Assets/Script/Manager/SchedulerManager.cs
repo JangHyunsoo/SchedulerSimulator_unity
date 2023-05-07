@@ -72,6 +72,9 @@ public class SchedulerManager : Singleton<SchedulerManager>
 			case ScheduleWay.HRRN:
 				cur_scheduler_ = new HRRNScheduler();
 				break;
+			case ScheduleWay.OUR:
+				cur_scheduler_ = new MultiThreadScheduler();
+				break;
 			default:
 				break;
 		}
