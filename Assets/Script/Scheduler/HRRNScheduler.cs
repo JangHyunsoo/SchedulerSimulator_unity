@@ -38,11 +38,6 @@ public class HRRNScheduler : Scheduler
         // 프로세서에 프로세스를 할당 가능할때만 sorting
         if (ProcessorManager.instance.canUse() && process_queue_.Count != 0)
         {
-            foreach (var process in process_queue_)
-            {
-                process.setResponseRatio(_total_tick);
-            }
-
             process_queue_.Sort(hrrn_compare_);
         }
 

@@ -32,6 +32,16 @@ public class Process
 		response_time_ = -1;
 	}
 
+	public Process(int _no, int _burst_time)
+	{
+		process_no_ = _no;
+		arrival_time_ = 0;
+		burst_time_ = _burst_time;
+		cur_burst_time_ = burst_time;
+		response_ratio_ = 0f;
+		response_time_ = -1;
+	}
+
 	public Process(Job _job)
 	{
 		process_no_ = _job.job_no;
@@ -58,7 +68,7 @@ public class Process
 	{
 		if (response_time_ == -1)
 		{
-			response_time_ = _total_tick;
+			setResponseTime(_total_tick);
 		}
 		cur_burst_time_ -= _work;
 		if (cur_burst_time_ < 0)
@@ -67,20 +77,29 @@ public class Process
 		}
 	}
 
+	public void setBurstTime(int _burst_time)
+    {
+		cur_burst_time_ = _burst_time;
+    }
+
 	public void setEndTime(int t)
     {
 		end_time_ = t;
     }
+
+	public void setResponseRatio(int _total_tick)
+	{
+		response_ratio_ = (float)(_total_tick - arrival_time_ + burst_time) / (float)burst_time;
+	}
+
+	public void setResponseTime(int _total_tick)
+    {
+		response_time_ = _total_tick;
+	}
 
 	public virtual void finishProcess()
     {
 		UIManager.instance.finish_process_table_ui.updateProcess(this);
 		SchedulerManager.instance.completeProcess();
 	}
-
-	public void setResponseRatio(int _total_tick)
-    {
-		response_ratio_ = (float)(_total_tick - arrival_time_ + burst_time) / (float)burst_time;
-	}
-
 }

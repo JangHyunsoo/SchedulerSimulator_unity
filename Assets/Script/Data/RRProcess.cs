@@ -8,7 +8,7 @@ class RRProcess : Process
     public RRProcess() : base() {
         remain_quantum_time_ = 0;
     }
-    public RRProcess(Job job_) : base(job_) {
+    public RRProcess(Job _job) : base(_job) {
         remain_quantum_time_ = 0;
     }
 

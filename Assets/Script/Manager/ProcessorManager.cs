@@ -42,6 +42,20 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return true;
     }
 
+    public CoreCount countEachTypeAvailable()
+    {
+        CoreCount core_count = new CoreCount { e_count = 0, p_count = 0 };
+        foreach (var processor in processor_arr_)
+        {
+            if (!processor.isRun())
+            {
+                if (processor.type == ProcessorType.EFFIC) core_count.e_count++;
+                else core_count.p_count++;
+            }
+        }
+        return core_count;
+    }
+
     public int countAvailable()
     {
         int count = 0;
@@ -70,6 +84,18 @@ public class ProcessorManager : Singleton<ProcessorManager>
         foreach (var processor in processor_arr_)
         {
             if (!processor.isRun())
+            {
+                return processor;
+            }
+        }
+        return null;
+    }
+
+    public Processor getAvailableProcessor(ProcessorType _type)
+    {
+        foreach (var processor in processor_arr_)
+        {
+            if (!processor.isRun() && processor.type == _type)
             {
                 return processor;
             }

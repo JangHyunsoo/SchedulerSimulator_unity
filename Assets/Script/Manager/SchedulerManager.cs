@@ -8,6 +8,8 @@ public class SchedulerManager : Singleton<SchedulerManager>
 	private int complete_process_ = 0;
     private Scheduler cur_scheduler_;
 
+	public Scheduler cur_scheduler { get => cur_scheduler_; }
+
 	[SerializeField]
 	private ScheduleWay schedule_way_ = ScheduleWay.FCFS;
 	[SerializeField]

@@ -549,7 +549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is_dont_destroy: 0
-  schedule_way_: 4
+  schedule_way_: 5
   time_quantum: 4
 --- !u!114 &186910678
 MonoBehaviour:
