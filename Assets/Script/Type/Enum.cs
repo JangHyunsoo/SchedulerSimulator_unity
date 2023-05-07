@@ -10,5 +10,6 @@ public enum ScheduleWay
 	RR,
 	SPN,
 	SRTN,
-	HRRN
+	HRRN,
+	OUR
 }

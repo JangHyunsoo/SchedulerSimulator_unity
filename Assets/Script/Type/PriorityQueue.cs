@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class PriorityQueue<T>
@@ -52,6 +53,11 @@ public class PriorityQueue<T>
     public void clear()
     {
         nowList.Clear();
+    }
+
+    public void resort()
+    {
+        nowList.Sort(comparer);
     }
 
     public int count

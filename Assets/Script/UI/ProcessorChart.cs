@@ -16,6 +16,8 @@ public class ProcessorChart : MonoBehaviour
     private ScrollRect chart_process_scroll_rect_;
     [SerializeField]
     private GridLayoutGroup chart_process_grid_;
+    [SerializeField]
+    private RectTransform chart_process_scroll_rect_transform_;
 
     [Header("Processor")]
     [SerializeField]
@@ -28,6 +30,8 @@ public class ProcessorChart : MonoBehaviour
     private ScrollRect chart_procesesor_scroll_rect_;
     [SerializeField]
     private GridLayoutGroup chart_processor_grid_;
+    [SerializeField]
+    private RectTransform chart_processor_scroll_rect_transform_;
 
     [Header("Background")]
     [SerializeField]
@@ -63,8 +67,8 @@ public class ProcessorChart : MonoBehaviour
     private List<Transform> tick_list_ = new List<Transform>();
     private int processor_size;
 
-    private bool height_auto_ = true;
-    private bool width_auto_ = true;
+    private bool height_auto_ = false;
+    private bool width_auto_ = false;
 
     public void init()
     {
@@ -89,6 +93,10 @@ public class ProcessorChart : MonoBehaviour
             chart_processor_grid_.spacing = new Vector2(0, 4);
             chart_background_grid_.spacing = new Vector2(0, 4);
 
+            chart_process_grid_.cellSize = new Vector2(chart_process_grid_.cellSize.x, 80);
+            chart_processor_grid_.cellSize = new Vector2(chart_processor_grid_.cellSize.x, 80);
+            chart_background_grid_.cellSize = new Vector2(chart_background_grid_.cellSize.x, 80);
+
             float rect_height = processor_size * (80 + 4);
             var process_rect = chart_process_rect_transform_.rect;
 
@@ -102,13 +110,12 @@ public class ProcessorChart : MonoBehaviour
             chart_processor_grid_.spacing = new Vector2(0, 0);
             chart_background_grid_.spacing = new Vector2(0, 0);
 
-            float process_height_size = chart_processor_rect_transform_.sizeDelta.y / processor_size;
+            float process_height_size = chart_processor_scroll_rect_transform_.sizeDelta.y / processor_size;
             chart_process_grid_.cellSize = new Vector2(chart_process_grid_.cellSize.x, process_height_size);
             chart_processor_grid_.cellSize = new Vector2(chart_processor_grid_.cellSize.x, process_height_size);
             chart_background_grid_.cellSize = new Vector2(chart_background_grid_.cellSize.x, process_height_size);
 
             float rect_height = processor_size * process_height_size;
-            var process_rect = chart_process_rect_transform_.rect;
 
             chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, rect_height);
             chart_processor_rect_transform_.sizeDelta = new Vector2(chart_processor_rect_transform_.sizeDelta.x, rect_height);
@@ -157,13 +164,16 @@ public class ProcessorChart : MonoBehaviour
             chart_process_grid_.spacing = new Vector2(0, chart_process_grid_.spacing.y);
             chart_tick_grid_.spacing = new Vector2(0, 0);
 
-            chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, chart_process_rect_transform_.sizeDelta.y);
-            chart_tick_rect_transfrom_.sizeDelta = new Vector2(chart_process_rect_transform_.sizeDelta.x, chart_tick_rect_transfrom_.sizeDelta.y);
+            chart_process_rect_transform_.sizeDelta = new Vector2(chart_process_scroll_rect_transform_.sizeDelta.x, chart_process_rect_transform_.sizeDelta.y);
+            chart_tick_rect_transfrom_.sizeDelta = new Vector2(chart_process_scroll_rect_transform_.sizeDelta.x, chart_tick_rect_transfrom_.sizeDelta.y);
         }
         else
         {
             chart_process_grid_.spacing = new Vector2(4, chart_process_grid_.spacing.y);
             chart_tick_grid_.spacing = new Vector2(4, 0);
+
+            chart_process_grid_.cellSize = new Vector2(80, chart_process_grid_.cellSize.y);
+            chart_tick_grid_.cellSize = new Vector2(80, chart_tick_grid_.cellSize.y);
         }
     }
 
@@ -183,8 +193,12 @@ public class ProcessorChart : MonoBehaviour
         }
         else
         {
+            if(chart_process_grid_.spacing.x == 0)
+            {
+                setAutoWidthSize();
+            }
+
             float rect_width = tick_list_.Count * (80 + 4);
-            var process_rect = chart_process_rect_transform_.rect;
 
             chart_process_rect_transform_.sizeDelta = new Vector2(rect_width, chart_process_rect_transform_.sizeDelta.y);
             chart_tick_rect_transfrom_.sizeDelta = new Vector2(rect_width, chart_tick_rect_transfrom_.sizeDelta.y);
@@ -204,5 +218,17 @@ public class ProcessorChart : MonoBehaviour
     {
         chart_procesesor_scroll_rect_.verticalNormalizedPosition = vector2.y;
         chart_background_scroll_rect_.verticalNormalizedPosition = vector2.y;
+    }
+
+    public void toggleHeightAuto()
+    {
+        height_auto_ = !height_auto_;
+        autoHeightSize();
+    }
+
+    public void toggleWidthAuto()
+    {
+        width_auto_ = !width_auto_;
+        autoWidthSize();
     }
 }

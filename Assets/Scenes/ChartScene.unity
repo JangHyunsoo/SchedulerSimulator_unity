@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 28968852}
   - component: {fileID: 28968851}
   - component: {fileID: 28968853}
+  - component: {fileID: 28968854}
   m_Layer: 5
   m_Name: Height Button
   m_TagString: Untagged
@@ -242,7 +243,46 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28968851}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5451349621419141194}
+        m_TargetAssemblyTypeName: ProcessorChart, Assembly-CSharp
+        m_MethodName: toggleHeightAuto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 28968854}
+        m_TargetAssemblyTypeName: ToggleButton, Assembly-CSharp
+        m_MethodName: toggleImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &28968854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28968849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442284385fec1734baaabc02a0880a80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active_image_: {fileID: 21300000, guid: e3e756514c63ef641ab38300f3a1c863, type: 3}
+  disable_image_: {fileID: 21300000, guid: ec3dac8aa3b5ebd43adc0f3dc4a97bb4, type: 3}
+  flag: 1
 --- !u!1 &46743464
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +458,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 125541895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -428,7 +468,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -438,10 +478,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 8b1ff2b924682ee4998e2721bbe83cae, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 8b1ff2b924682ee4998e2721bbe83cae, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 8b1ff2b924682ee4998e2721bbe83cae, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: e763cfac69078234992800be66aaf349, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -450,9 +490,13 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 125541897}
-  m_OnClick:
+  toggleTransition: 1
+  graphic: {fileID: 0}
+  m_Group: {fileID: 0}
+  onValueChanged:
     m_PersistentCalls:
       m_Calls: []
+  m_IsOn: 0
 --- !u!1 &186910675
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,8 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is_dont_destroy: 0
-  p_core_count_: 2
-  e_core_count_: 2
+  p_core_count_: 4
+  e_core_count_: 4
 --- !u!114 &186910680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3185,6 +3229,7 @@ GameObject:
   - component: {fileID: 1875226945}
   - component: {fileID: 1875226944}
   - component: {fileID: 1875226946}
+  - component: {fileID: 1875226947}
   m_Layer: 5
   m_Name: Width Button
   m_TagString: Untagged
@@ -3292,7 +3337,46 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1875226944}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5451349621419141194}
+        m_TargetAssemblyTypeName: ProcessorChart, Assembly-CSharp
+        m_MethodName: toggleWidthAuto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1875226947}
+        m_TargetAssemblyTypeName: ToggleButton, Assembly-CSharp
+        m_MethodName: toggleImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1875226947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875226942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442284385fec1734baaabc02a0880a80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active_image_: {fileID: 21300000, guid: a7ed86d21d3331043861eccf0602e9d6, type: 3}
+  disable_image_: {fileID: 21300000, guid: 99b77a1f67bbad343bda737c6a12d9d3, type: 3}
+  flag: 1
 --- !u!1 &1903792039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4229,11 +4313,13 @@ MonoBehaviour:
   chart_process_rect_transform_: {fileID: 5451349621597694295}
   chart_process_scroll_rect_: {fileID: 5451349621789410486}
   chart_process_grid_: {fileID: 5451349621597694292}
+  chart_process_scroll_rect_transform_: {fileID: 5451349621789410481}
   chart_processor_unit_prefab_: {fileID: 5530896206790300541, guid: 6479a602284104944a7f90cc88af8a43, type: 3}
   chart_processor_unit_parent_: {fileID: 5451349622472500382}
   chart_processor_rect_transform_: {fileID: 5451349622472500382}
   chart_procesesor_scroll_rect_: {fileID: 5451349621496528494}
   chart_processor_grid_: {fileID: 5451349622472500383}
+  chart_processor_scroll_rect_transform_: {fileID: 5451349621496528489}
   chart_background_unit_prefab_: {fileID: 3364022485713327584, guid: 69667b383eac2ff46850569186250ed7, type: 3}
   chart_background_unit_parent_: {fileID: 5451349621238829515}
   chart_background_rect_transform_: {fileID: 5451349621238829515}
@@ -4695,7 +4781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 2
+    m_Left: 0
     m_Right: 0
     m_Top: 0
     m_Bottom: 0

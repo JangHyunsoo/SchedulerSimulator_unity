@@ -5,6 +5,5 @@ using UnityEngine;
 
 public class MultiProcess : Process
 {
-    public MultiProcess(Job _job) : base(_job) { }
-
+    public MultiProcess(Job job_) : base(job_) { }
 }
