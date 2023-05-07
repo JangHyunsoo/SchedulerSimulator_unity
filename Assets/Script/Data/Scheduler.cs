@@ -16,14 +16,16 @@ public class Scheduler
         logic(_total_tick);
     }
 
-    protected Queue<Process> getArrivalProcess(int _total_tick)
+    protected Queue<T> getArrivalProcess<T>(int _total_tick) where T : Process, new()
     {
-        Queue<Process> ret = new Queue<Process>();
+        Queue<T> ret = new Queue<T>();
         Queue<Job> arrival_job = JobSimulator.instance.getJobs(_total_tick);
 
         while (arrival_job.Count != 0)
         {
-            ret.Enqueue(new Process(arrival_job.Dequeue()));
+            T process = new T();
+            process.init(arrival_job.Dequeue());
+            ret.Enqueue(process);
         }
 
         return ret;

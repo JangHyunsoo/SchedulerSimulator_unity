@@ -13,7 +13,7 @@ public class MultiThreadScheduler : Scheduler
 
     public override void queuing(int _total_tick)
     {
-        Queue<Process> arrival_process_queue = getArrivalProcess(_total_tick);
+        Queue<MultiProcess> arrival_process_queue = getArrivalProcess<MultiProcess>(_total_tick);
 
         while (arrival_process_queue.Count != 0)
         {
@@ -27,7 +27,6 @@ public class MultiThreadScheduler : Scheduler
     {
         var psr_mgr = ProcessorManager.instance;
 
-
         while(process_queue_.Count != 0 && psr_mgr.canUse())
         {
             Process process = process_queue_.Dequeue();
@@ -40,7 +39,6 @@ public class MultiThreadScheduler : Scheduler
                 processor.addProcess(process);
             }
         }
-        
 
         psr_mgr.tick(_total_tick);
     }

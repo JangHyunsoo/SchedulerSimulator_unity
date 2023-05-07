@@ -18,7 +18,7 @@ class RRScheduler : Scheduler
 
     public override void queuing(int _total_tick)
     {
-        Queue<Process> arrival_process_queue = getArrivalProcess(_total_tick);
+        Queue<RRProcess> arrival_process_queue = getArrivalProcess<RRProcess>(_total_tick);
 
         while (arrival_process_queue.Count != 0)
         {
@@ -32,12 +32,12 @@ class RRScheduler : Scheduler
     {
         var psr_mgr = ProcessorManager.instance;
 
-        while (psr_mgr.countQuantumAvailable() > 0 && process_queue_.Count != 0)
+        while (psr_mgr.countAvailable() > 0 && process_queue_.Count != 0)
         {
-            Processor processor = psr_mgr.getQuantumAvailableProcessor();
+            Processor processor = psr_mgr.getAvailableProcessor();
             Process process = process_queue_.Dequeue();
             Process swap_process = processor.swapProcess(process);
-            process.setQuantumTime(time_quantum_);
+            ((RRProcess)process).setQuantumTime(time_quantum_);
             if(swap_process != null)
             {
                 process_queue_.Enqueue(swap_process);

@@ -30,13 +30,14 @@ public class ProcessorManager : Singleton<ProcessorManager>
         {
             processor.tick(total_tick);
         }
+        UIManager.instance.power_text.text = getPower().ToString();
     }
 
     public bool isDone()
     {
         foreach (Processor processor in processor_arr_)
         {
-            if (processor.is_run) return false;
+            if (processor.isRun()) return false;
         }
         return true;
     }
@@ -47,7 +48,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
 
         foreach (Processor processor in processor_arr_)
         {
-            if (!processor.is_run)
+            if (!processor.isRun())
                 count++;
         }
         return count;
@@ -57,42 +58,18 @@ public class ProcessorManager : Singleton<ProcessorManager>
     {
         foreach (Processor processor in processor_arr_)
         {
-            if (!processor.is_run)
+            if (!processor.isRun())
                 return true;
         }
         return false;
     }
 
-    public int countQuantumAvailable()
-    {
-        int count = 0;
-        foreach (var processor in processor_arr_)
-        {
-            if (!processor.isRunQuantum())
-            {
-                count++;
-            }
-        }
-        return count;
-    }
 
     public Processor getAvailableProcessor()
     {
         foreach (var processor in processor_arr_)
         {
-            if (!processor.is_run)
-            {
-                return processor;
-            }
-        }
-        return null;
-    }
-
-    public Processor getQuantumAvailableProcessor()
-    {
-        foreach (var processor in processor_arr_)
-        {
-            if (!processor.isRunQuantum())
+            if (!processor.isRun())
             {
                 return processor;
             }
@@ -109,7 +86,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
         {
             int burst_time = 987654321;
 
-            if (processor_arr_[i].is_run)
+            if (processor_arr_[i].isRun())
             {
                 burst_time = processor_arr_[i].cur_process.cur_burst_time;
             }
@@ -137,7 +114,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
     {
         foreach (Processor processor in processor_arr_)
         {
-            if (!processor.is_run)
+            if (!processor.isRun())
             {
                 processor.addProcess(_process);
                 return true;
@@ -168,5 +145,15 @@ public class ProcessorManager : Singleton<ProcessorManager>
             }
         }
         UIManager.instance.processor_chart_ui.autoWidthSize();
+    }
+
+    public float getPower()
+    {
+        float ret = 0f;
+        foreach (var psr in processor_arr_)
+        {
+            ret += psr.power_consumption;
+        }
+        return ret;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -19,6 +20,10 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private FinishProcessTable finish_process_table_ui_;
     public FinishProcessTable finish_process_table_ui { get => finish_process_table_ui_; }
+
+    [SerializeField]
+    private Text power_text_;
+    public Text power_text { get => power_text_; }
 
     public void init()
     {

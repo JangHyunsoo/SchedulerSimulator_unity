@@ -25,7 +25,7 @@ public class SPNScheduler : Scheduler
 
     public override void queuing(int _total_tick)
     {
-        Queue<Process> arrival_process_queue = getArrivalProcess(_total_tick);
+        Queue<GeneralProcess> arrival_process_queue = getArrivalProcess<GeneralProcess>(_total_tick);
 
         while (arrival_process_queue.Count != 0)
         {

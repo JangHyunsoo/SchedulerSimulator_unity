@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FCFSScheduler : Scheduler
 {
-    private Queue<Process> process_queue_ = new Queue<Process>();
+    private Queue<GeneralProcess> process_queue_ = new Queue<GeneralProcess>();
 
     public override void init()
     {
@@ -14,7 +14,7 @@ public class FCFSScheduler : Scheduler
 
     public override void queuing(int _total_tick)
     {
-        Queue<Process> arrival_process_queue = getArrivalProcess(_total_tick);
+        Queue<GeneralProcess> arrival_process_queue = getArrivalProcess<GeneralProcess>(_total_tick);
 
         while (arrival_process_queue.Count != 0)
         {
