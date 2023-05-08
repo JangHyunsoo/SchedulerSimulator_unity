@@ -180,6 +180,9 @@ public class ProcessorManager : Singleton<ProcessorManager>
         {
             ret += psr.power_consumption;
         }
+
+        ret = Mathf.Floor(ret * 100f) / 100f;
+
         return ret;
     }
 }

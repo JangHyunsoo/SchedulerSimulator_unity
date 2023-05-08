@@ -8,7 +8,7 @@ public class MultiThreadScheduler : Scheduler
     public struct AllocData
     {
         public int burst_time;
-        public ProcessorType core_type_;
+        public ProcessorType core_type;
     }
 
     private Queue<Process> process_queue_ = new Queue<Process>();
@@ -38,7 +38,18 @@ public class MultiThreadScheduler : Scheduler
 
         while (merge_process_queue_.Count != 0 && psr_mgr.canUse())
         {
-            psr_mgr.addProcess(merge_process_queue_.Dequeue());
+            var core_count = psr_mgr.countEachTypeAvailable();
+            // E-Core ¿ì¼±
+            if (core_count.e_count > 0)
+            {
+                var processor = psr_mgr.getAvailableProcessor(ProcessorType.EFFIC);
+                processor.addProcess(merge_process_queue_.Dequeue());
+            }
+            else
+            {
+                var processor = psr_mgr.getAvailableProcessor(ProcessorType.PERFOR);
+                processor.addProcess(merge_process_queue_.Dequeue());
+            }
         }
 
         while (process_queue_.Count != 0 && psr_mgr.canUse())
@@ -49,12 +60,12 @@ public class MultiThreadScheduler : Scheduler
                 int burst_time = process.burst_time;
                 CoreCount core_count = psr_mgr.countEachTypeAvailable();
                 List<AllocData> alloc_list = calAllocData(core_count, burst_time);
-                if(alloc_list.Count >= 2)
+                if(isBenefit(alloc_list, burst_time))
                 {
                     process.setResponseTime(_total_tick);
                     foreach (var alloc_data in alloc_list)
                     {
-                        var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type_);
+                        var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type);
                         processor.addProcess(process.makeSubProcess(alloc_data.burst_time));
                     }
                 }
@@ -86,7 +97,7 @@ public class MultiThreadScheduler : Scheduler
         {
             if (_core_count.e_count > 0)
             {
-                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type_ = ProcessorType.EFFIC });
+                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
                 mod_tick -= 1;
                 e_count--;
             }
@@ -96,13 +107,13 @@ public class MultiThreadScheduler : Scheduler
         {
             if (p_count > 0)
             {
-                ret.Add(new AllocData { burst_time = 2 + share_tick * 2, core_type_ = ProcessorType.PERFOR });
+                ret.Add(new AllocData { burst_time = 2 + share_tick * 2, core_type = ProcessorType.PERFOR });
                 mod_tick -= 2;
                 p_count--;
             }
             else
             {
-                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type_ = ProcessorType.EFFIC });
+                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
                 mod_tick -= 1;
                 e_count--;
             }
@@ -113,17 +124,41 @@ public class MultiThreadScheduler : Scheduler
         {
             if (p_count > 0)
             {
-                ret.Add(new AllocData { burst_time = share_tick * 2, core_type_ = ProcessorType.PERFOR });
+                ret.Add(new AllocData { burst_time = share_tick * 2, core_type = ProcessorType.PERFOR });
                 p_count--;
             }
             else
             {
-                ret.Add(new AllocData { burst_time = share_tick, core_type_ = ProcessorType.EFFIC });
+                ret.Add(new AllocData { burst_time = share_tick, core_type = ProcessorType.EFFIC });
                 e_count--;
             }
         }
 
         return ret;
+    }
+
+    private bool isBenefit(List<AllocData> _alloc_data_list, int _burst_time)
+    {
+        int multi_burst = 0;
+        int core_perform = 1;
+        
+        foreach (var alloc_data in _alloc_data_list)
+        {
+            int type_perform = alloc_data.core_type == ProcessorType.EFFIC ? 1 : 2;
+            int sub_brust_time = alloc_data.burst_time / type_perform + alloc_data.burst_time % type_perform;
+            if (multi_burst < sub_brust_time)
+            {
+                multi_burst = sub_brust_time;
+            }
+            if(type_perform == 2)
+            {
+                core_perform = 2;
+            }
+        }
+
+        int single_burst_time = _burst_time / core_perform + _burst_time % core_perform;
+
+        return multi_burst + 1 < single_burst_time;
     }
 
     public void addMergeProcess(MultiProcess process)

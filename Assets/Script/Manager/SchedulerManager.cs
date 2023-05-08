@@ -6,21 +6,37 @@ public class SchedulerManager : Singleton<SchedulerManager>
 {
     private int total_tick_;
 	private int complete_process_ = 0;
-    private Scheduler cur_scheduler_;
-
+	private Scheduler cur_scheduler_;
 	public Scheduler cur_scheduler { get => cur_scheduler_; }
 
 	[SerializeField]
 	private ScheduleWay schedule_way_ = ScheduleWay.FCFS;
 	[SerializeField]
 	private int time_quantum = 2;
-
 	public int total_tick { get => total_tick_; }
+
+	private bool start_update_ = false;
+	private float update_delta_time_ = 0f;
+
+    private void Update()
+    {
+        if (start_update_)
+        {
+			update_delta_time_ += Time.deltaTime;
+
+			if (update_delta_time_ >= 0.2f)
+            {
+				update_delta_time_ -= 0.2f;
+				step();
+			}
+        }
+    }
 
     public void init()
     {
         total_tick_ = 0;
-        assignScheduler(schedule_way_);
+		start_update_ = false;
+		assignScheduler(schedule_way_);
 		UIManager.instance.chart_process_queue_ui.init();
 		queuing();
 	}
@@ -85,5 +101,16 @@ public class SchedulerManager : Singleton<SchedulerManager>
 	public void completeProcess()
     {
 		complete_process_++;
+	}
+
+	public void startUpdate()
+    {
+		start_update_ = true;
+	}
+
+	public void pauseUpdate()
+    {
+		start_update_ = false;
+
 	}
 }

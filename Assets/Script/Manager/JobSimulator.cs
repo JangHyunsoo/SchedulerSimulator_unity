@@ -40,7 +40,7 @@ public class JobSimulator : Singleton<JobSimulator>
     private void addJobByRandom()
     {
         int arrival_time = Random.Range(0, 20);
-        int burst_time = Random.Range(5, 20);
+        int burst_time = Random.Range(1, 20);
         addJob(arrival_time, burst_time);
     }
 
