@@ -44,15 +44,28 @@ public class MultiThreadScheduler : Scheduler
         while (process_queue_.Count != 0 && psr_mgr.canUse())
         {
             MultiProcess process = (MultiProcess)process_queue_.Dequeue();
-            int burst_time = process.burst_time;
-            CoreCount core_count = psr_mgr.countEachTypeAvailable();
-            List<AllocData> alloc_list = calAllocData(core_count, burst_time);
-            process.setResponseTime(_total_tick);
-
-            foreach (var alloc_data in alloc_list)
+            if (psr_mgr.countAvailable() >= 2)
             {
-                var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type_);
-                processor.addProcess(process.makeSubProcess(alloc_data.burst_time));
+                int burst_time = process.burst_time;
+                CoreCount core_count = psr_mgr.countEachTypeAvailable();
+                List<AllocData> alloc_list = calAllocData(core_count, burst_time);
+                if(alloc_list.Count >= 2)
+                {
+                    process.setResponseTime(_total_tick);
+                    foreach (var alloc_data in alloc_list)
+                    {
+                        var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type_);
+                        processor.addProcess(process.makeSubProcess(alloc_data.burst_time));
+                    }
+                }
+                else
+                {
+                    psr_mgr.addProcess(process);
+                }
+            }
+            else
+            {
+                psr_mgr.addProcess(process);
             }
         }
 

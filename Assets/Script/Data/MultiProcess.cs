@@ -18,11 +18,6 @@ public class MultiProcess : Process
         complete_process_ = 0;
     }
 
-    public override void finishProcess()
-    {
-        base.finishProcess();
-    }
-    
     public SubProcess makeSubProcess(int _burst_time)
     {
         SubProcess sub_process = new SubProcess(no, _burst_time);
@@ -34,7 +29,7 @@ public class MultiProcess : Process
     public void finshChild()
     {
         complete_process_++;
-        if(complete_process_ == divided_process_)
+        if (complete_process_ == divided_process_)
         {
             MultiThreadScheduler scheduler = (MultiThreadScheduler)SchedulerManager.instance.cur_scheduler;
             setBurstTime(1);
