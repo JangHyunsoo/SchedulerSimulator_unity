@@ -16,7 +16,8 @@ public class SetUpManager : Singleton<SetUpManager>
     private ScheduleWay schedule_way_;
     public ScheduleWay schedule_way { get => schedule_way_; set => schedule_way_ = value; }
 
-    private Dictionary<int, Job> job_dic_ = new Dictionary<int, Job>();
+    private List<Job> job_list_ = new List<Job>();
+    public List<Job> job_list { get => job_list_; }
 
     [SerializeField]
     private ProcessorSetUpUI processor_set_up_ui_;
@@ -33,10 +34,15 @@ public class SetUpManager : Singleton<SetUpManager>
 
         foreach (var job in job_arr)
         {
-            job_dic_[job.job_no] = job;
+            job_list_.Add(job);
         }
 
         processor_set_up_ui_.init();
+    }
+
+    public void addJob(int _at, int _bt)
+    {
+        job_list_.Add(new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt });
     }
 
     public void increasePCore()
@@ -44,7 +50,7 @@ public class SetUpManager : Singleton<SetUpManager>
         p_core_count_++;
     }
 
-    public void discreasePCore()
+    public void reducePCore()
     {
         if (p_core_count_ > 0)
         {
@@ -58,7 +64,7 @@ public class SetUpManager : Singleton<SetUpManager>
         e_core_count_++;
     }
 
-    public void discreaseECore()
+    public void reduceECore()
     {
         if (e_core_count_ > 0)
         {

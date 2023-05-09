@@ -9,8 +9,8 @@ public class RemoveCoreButton : MonoBehaviour
 
     public void removeCore()
     {
-        if (processor_type_ == ProcessorType.PERFOR) SetUpManager.instance.discreasePCore();
-        else  SetUpManager.instance.discreaseECore();
+        if (processor_type_ == ProcessorType.PERFOR) SetUpManager.instance.reducePCore();
+        else  SetUpManager.instance.reduceECore();
 
         GameObject.Destroy(gameObject);
     }
