@@ -56,13 +56,13 @@ public class Processor
             cur_process_.tick(_total_tick, processor_type_ == ProcessorType.EFFIC ? 1 : 2);
             history_list_.Add(cur_process_.no);
             check(_total_tick);
+            prev_run_ = true;
         }
         else
         {
+            prev_run_ = false;
             history_list_.Add(-1);
         }
-
-        prev_run_ = is_run_;
     }
 
     public void check(int _total_tick)
