@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MultiThreadScheduler : Scheduler
 {
-    public struct AllocData
+    public struct DivideInfo
     {
         public int burst_time;
         public ProcessorType core_type;
@@ -36,7 +36,7 @@ public class MultiThreadScheduler : Scheduler
     {
         var psr_mgr = ProcessorManager.instance;
 
-        while (merge_process_queue_.Count != 0 && psr_mgr.canUse())
+        while (merge_process_queue_.Count != 0 && psr_mgr.countAvailable() > 0)
         {
             var core_count = psr_mgr.countEachTypeAvailable();
             // E-Core ¿ì¼±
@@ -52,14 +52,14 @@ public class MultiThreadScheduler : Scheduler
             }
         }
 
-        while (process_queue_.Count != 0 && psr_mgr.canUse())
+        while (process_queue_.Count != 0 && psr_mgr.countAvailable() > 0)
         {
             MultiProcess process = (MultiProcess)process_queue_.Dequeue();
             if (psr_mgr.countAvailable() >= 2)
             {
                 int burst_time = process.burst_time;
                 CoreCount core_count = psr_mgr.countEachTypeAvailable();
-                List<AllocData> alloc_list = dividProcess(core_count, burst_time);
+                List<DivideInfo> alloc_list = dividProcess(core_count, burst_time);
                 if(isBenefit(alloc_list, burst_time))
                 {
                     process.setResponseTime(_total_tick);
@@ -71,21 +71,23 @@ public class MultiThreadScheduler : Scheduler
                 }
                 else
                 {
-                    psr_mgr.addProcess(process);
+                    var processor = psr_mgr.getAvailableProcessor();
+                    processor.addProcess(process);
                 }
             }
             else
             {
-                psr_mgr.addProcess(process);
+                var processor = psr_mgr.getAvailableProcessor();
+                processor.addProcess(process);
             }
         }
 
         psr_mgr.tick(_total_tick);
     }
 
-    private List<AllocData> dividProcess(CoreCount _core_count, int _burst_time)
+    private List<DivideInfo> dividProcess(CoreCount _core_count, int _burst_time)
     {
-        List<AllocData> ret = new List<AllocData>();
+        List<DivideInfo> ret = new List<DivideInfo>();
         int e_count = _core_count.e_count;
         int p_count = _core_count.p_count;
         int total_perfor = e_count + p_count * 2;
@@ -97,7 +99,7 @@ public class MultiThreadScheduler : Scheduler
         {
             if (_core_count.e_count > 0)
             {
-                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
+                ret.Add(new DivideInfo { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
                 mod_tick -= 1;
                 e_count--;
             }
@@ -107,13 +109,13 @@ public class MultiThreadScheduler : Scheduler
         {
             if (p_count > 0)
             {
-                ret.Add(new AllocData { burst_time = 2 + share_tick * 2, core_type = ProcessorType.PERFOR });
+                ret.Add(new DivideInfo { burst_time = 2 + share_tick * 2, core_type = ProcessorType.PERFOR });
                 mod_tick -= 2;
                 p_count--;
             }
             else
             {
-                ret.Add(new AllocData { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
+                ret.Add(new DivideInfo { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
                 mod_tick -= 1;
                 e_count--;
             }
@@ -124,12 +126,12 @@ public class MultiThreadScheduler : Scheduler
         {
             if (p_count > 0)
             {
-                ret.Add(new AllocData { burst_time = share_tick * 2, core_type = ProcessorType.PERFOR });
+                ret.Add(new DivideInfo { burst_time = share_tick * 2, core_type = ProcessorType.PERFOR });
                 p_count--;
             }
             else
             {
-                ret.Add(new AllocData { burst_time = share_tick, core_type = ProcessorType.EFFIC });
+                ret.Add(new DivideInfo { burst_time = share_tick, core_type = ProcessorType.EFFIC });
                 e_count--;
             }
         }
@@ -137,7 +139,7 @@ public class MultiThreadScheduler : Scheduler
         return ret;
     }
 
-    private bool isBenefit(List<AllocData> _alloc_data_list, int _burst_time)
+    private bool isBenefit(List<DivideInfo> _alloc_data_list, int _burst_time)
     {
         int multi_burst = 0;
         int core_perform = 1;

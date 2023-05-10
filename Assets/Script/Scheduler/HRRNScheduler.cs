@@ -35,7 +35,7 @@ public class HRRNScheduler : Scheduler
             process_queue_.Add(arrival_process_queue.Dequeue());
         }
 
-        if (ProcessorManager.instance.canUse() && process_queue_.Count != 0)
+        if (ProcessorManager.instance.countAvailable() > 0 && process_queue_.Count != 0)
         {
             foreach (var process in process_queue_)
             {
@@ -51,9 +51,10 @@ public class HRRNScheduler : Scheduler
     {
         var psr_mgr = ProcessorManager.instance;
 
-        while (psr_mgr.canUse() && process_queue_.Count != 0)
+        while (psr_mgr.countAvailable() > 0 && process_queue_.Count != 0)
         {
-            psr_mgr.addProcess(process_queue_[0]);
+            var processor = psr_mgr.getAvailableProcessor();
+            processor.addProcess(process_queue_[0]);
             process_queue_.RemoveAt(0);
         }
 

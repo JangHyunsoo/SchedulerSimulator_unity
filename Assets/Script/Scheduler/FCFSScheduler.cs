@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FCFSScheduler : Scheduler
 {
-    private Queue<GeneralProcess> process_queue_ = new Queue<GeneralProcess>();
+    private Queue<Process> process_queue_ = new Queue<Process>();
 
     public override void init()
     {
@@ -28,9 +28,10 @@ public class FCFSScheduler : Scheduler
     {
         var psr_mgr = ProcessorManager.instance;
 
-        while (psr_mgr.canUse() && process_queue_.Count != 0)
+        while (psr_mgr.countAvailable() > 0 && process_queue_.Count != 0)
         {
-            psr_mgr.addProcess(process_queue_.Dequeue());
+            var processor = psr_mgr.getAvailableProcessor();
+            processor.addProcess(process_queue_.Dequeue());
         }
 
         psr_mgr.tick(_total_tick);

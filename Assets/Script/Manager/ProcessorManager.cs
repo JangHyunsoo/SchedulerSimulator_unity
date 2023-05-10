@@ -62,18 +62,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return count;
     }
 
-    // remove 
-    public bool canUse()
-    {
-        foreach (Processor processor in processor_arr_)
-        {
-            if (!processor.isRun())
-                return true;
-        }
-        return false;
-    }
-
-
     public Processor getAvailableProcessor()
     {
         foreach (var processor in processor_arr_)
@@ -139,19 +127,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return processor_arr_[idx];
     }
 
-    public bool addProcess(Process _process)
-    {
-        foreach (Processor processor in processor_arr_)
-        {
-            if (!processor.isRun())
-            {
-                processor.addProcess(_process);
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void appendGanttChart(int _cur_tick)
     {
         for (int i = 0; i < processor_count; i++)
@@ -160,19 +135,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
             UIManager.instance.processor_chart_ui.addChartUnit(history);
         }
         UIManager.instance.processor_chart_ui.addTick();
-        UIManager.instance.processor_chart_ui.autoWidthSize();
-    }
-
-    public void updateGanttChart(int _total_tick)
-    {
-        for (int i = 0; i < _total_tick; i++)
-        {
-            for (int j = 0; j < processor_count; j++)
-            {
-                int history = processor_arr_[j].getHistory(i);
-                UIManager.instance.processor_chart_ui.addChartUnit(history);
-            }
-        }
         UIManager.instance.processor_chart_ui.autoWidthSize();
     }
 
