@@ -51,7 +51,6 @@ public class ProcessRandomSetup : MonoBehaviour
     public void changeProcessCount(string _num)
     {
         process_count_text_.text = underZero(_num);
-        Debug.Log("test");
     }
 
     public void changeATMax(string _num)
@@ -68,17 +67,21 @@ public class ProcessRandomSetup : MonoBehaviour
     {
         if (_num.Contains("-") || _num == "" || _num == "0")
         {
-            bt_min_text_.text = "1";
+            bt_max_text_.text = "1";
         }
         else
         {
-            bt_min_text_.text = _num;
+            bt_max_text_.text = _num;
         }
     }
 
     public void changeBTMin(string _num)
     {
-        if(_num.Contains("-") || _num == "" || _num == "0")
+        if(_num == "")
+        {
+            bt_min_text_.text = "1";
+        }
+        else if(int.Parse(_num) <= 0)
         {
             bt_min_text_.text = "1";
         }
@@ -90,7 +93,8 @@ public class ProcessRandomSetup : MonoBehaviour
 
     private string underZero(string _num)
     {
-        if (_num.Contains("-") || _num == "") return "0";
+        if (_num == "") return "0";
+        else if (int.Parse(_num) < 0) return "0";
         return _num;
     }
 

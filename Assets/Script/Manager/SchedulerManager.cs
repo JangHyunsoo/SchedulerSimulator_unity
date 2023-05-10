@@ -12,7 +12,7 @@ public class SchedulerManager : Singleton<SchedulerManager>
 	[SerializeField]
 	private ScheduleWay schedule_way_ = ScheduleWay.FCFS;
 	[SerializeField]
-	private int time_quantum = 2;
+	private int time_quantum_ = 2;
 	public int total_tick { get => total_tick_; }
 
 	private bool start_update_ = false;
@@ -34,7 +34,9 @@ public class SchedulerManager : Singleton<SchedulerManager>
 
     public void init()
     {
-        total_tick_ = 0;
+		schedule_way_ = SceneDataManager.instance.schedule_way;
+		time_quantum_ = SceneDataManager.instance.time_quantum;
+		total_tick_ = 0;
 		start_update_ = false;
 		assignScheduler(schedule_way_);
 		UIManager.instance.chart_process_queue_ui.init();
@@ -79,7 +81,7 @@ public class SchedulerManager : Singleton<SchedulerManager>
 				cur_scheduler_ = new FCFSScheduler();
 				break;
 			case ScheduleWay.RR:
-				cur_scheduler_ = new RRScheduler(time_quantum);
+				cur_scheduler_ = new RRScheduler(time_quantum_);
 				break;
 			case ScheduleWay.SPN:
 				cur_scheduler_ = new SPNScheduler();

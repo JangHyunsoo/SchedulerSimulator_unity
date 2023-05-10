@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChartScene.unity
     guid: b26dc7c3865eb9546a5028da437a8b37
+  - enabled: 1
+    path: Assets/Scenes/setup.unity
+    guid: 00a12e28b4ffadf4f84c30e3cff1ddc7
+  - enabled: 1
+    path: Assets/Scenes/OnceScene.unity
+    guid: 6ee7ab454d0ea414dbfb33d8ab7de031
   m_configObjects: {}

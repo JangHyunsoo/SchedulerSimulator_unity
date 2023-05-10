@@ -913,7 +913,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 152490499}
-  - component: {fileID: 152490498}
   - component: {fileID: 152490497}
   m_Layer: 0
   m_Name: SetUpManager
@@ -938,19 +937,6 @@ MonoBehaviour:
   processor_set_up_ui_: {fileID: 2134225375}
   process_info_table_ui_: {fileID: 1892163677}
   schedule_selector_ui_: {fileID: 1779694977}
---- !u!114 &152490498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152490496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdc9875d6df622b469be26617073a31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  is_dont_destroy: 0
 --- !u!4 &152490499
 Transform:
   m_ObjectHideFlags: 0
@@ -5241,7 +5227,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 972866757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 152490497}
+        m_TargetAssemblyTypeName: SetUpManager, Assembly-CSharp
+        m_MethodName: onClickApply
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &972866757
 MonoBehaviour:
   m_ObjectHideFlags: 0

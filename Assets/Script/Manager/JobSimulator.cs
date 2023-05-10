@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class JobSimulator : Singleton<JobSimulator>
 {
-    private int job_counter_ = 0;
     private Job[] job_arr_;
     public Job[] job_arr { get => job_arr_; }
     private Queue<Job> job_queue_ = new Queue<Job>();
@@ -24,37 +23,21 @@ public class JobSimulator : Singleton<JobSimulator>
 
     public void init()
     {
-        job_arr_ = new Job[3];
         job_queue_.Clear();
+
+        // load scene data
+        job_arr_ = SceneDataManager.instance.getJobs();
+        var job_color_arr = SceneDataManager.instance.getJobColors();
+
+        for (int i = 0; i < job_color_arr.Length; i++)
+        {
+            color_table[i] = job_color_arr[i];
+        }
 
         color_table[-1] = Color.clear;
 
-        addJob(0, 2);
-        color_table[0] = Color.red;
-        addJob(1, 3);
-        color_table[1] = Color.green;
-        addJob(2, 1);
-        color_table[2] = Color.blue;
-
-        //for (int i = 0; i < job_arr_.Length; i++)
-        //{
-        //    addJobByRandom();
-        //    color_table[i] = new Color(Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f));
-        //}
+        
         carryQueue();
-    }
-
-    private void addJobByRandom()
-    {
-        int arrival_time = Random.Range(0, 20);
-        int burst_time = Random.Range(1, 20);
-        addJob(arrival_time, burst_time);
-    }
-
-    private void addJob(int _arrival_time, int _burst_time)
-    {
-        job_arr_[job_counter_] = new Job { job_no = job_counter_, arrival_time = _arrival_time, brust_time = _burst_time };
-        job_counter_++;
     }
 
     private void carryQueue()

@@ -28,6 +28,11 @@ public class SceneDataManager : Singleton<SceneDataManager>
         return job_arr_;
     }    
 
+    public Color[] getJobColors()
+    {
+        return job_color_arr_;
+    }
+
     public void setJobArr(Job[] _job_arr)
     {
         job_arr_ = _job_arr;

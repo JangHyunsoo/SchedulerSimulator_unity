@@ -14,6 +14,9 @@ public class ProcessorManager : Singleton<ProcessorManager>
 
     public void init()
     {
+        p_core_count_ = SceneDataManager.instance.p_core_count;
+        e_core_count_ = SceneDataManager.instance.e_core_count;
+
         processor_arr_ = new Processor[p_core_count_ + e_core_count_];
         for (int i = 0; i < p_core_count_; i++)
         {
@@ -73,6 +76,14 @@ public class ProcessorManager : Singleton<ProcessorManager>
 
     public Processor getAvailableProcessor()
     {
+        foreach (var processor in processor_arr_)
+        {
+            if (processor.cur_process == null)
+            {
+                return processor;
+            }
+        }
+
         foreach (var processor in processor_arr_)
         {
             if (!processor.isRun())

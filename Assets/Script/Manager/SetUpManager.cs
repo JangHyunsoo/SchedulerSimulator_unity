@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SetUpManager : Singleton<SetUpManager>
 {
@@ -123,8 +124,7 @@ public class SetUpManager : Singleton<SetUpManager>
             SceneDataManager.instance.setECore(e_core_count_);
             SceneDataManager.instance.setPCore(p_core_count_);
             SceneDataManager.instance.setScheduleWay(schedule_way_, time_quantum_);
-
-
+            SceneManager.LoadScene("ChartScene");
         }
     }
 }
