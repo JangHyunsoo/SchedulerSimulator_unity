@@ -87,7 +87,7 @@ public class SchedulerManager : Singleton<SchedulerManager>
 				cur_scheduler_ = new SPNScheduler();
 				break;
 			case ScheduleWay.SRTN:
-				cur_scheduler_ = new STRNScheduler();
+				cur_scheduler_ = new SRTNScheduler();
 				break;
 			case ScheduleWay.HRRN:
 				cur_scheduler_ = new HRRNScheduler();
@@ -113,6 +113,5 @@ public class SchedulerManager : Singleton<SchedulerManager>
 	public void pauseUpdate()
     {
 		start_update_ = false;
-
 	}
 }

@@ -17,7 +17,7 @@ public class HRRNScheduler : Scheduler
         }
     }
 
-    // 이거 우선 순위 큐 쓸 필요 없음.
+    // 이거 우선 순위 큐 쓸 필요 없음. List => Array
     private List<Process> process_queue_ = new List<Process>();
     private HRRNCompare hrrn_compare_ = new HRRNCompare();
 
@@ -35,7 +35,6 @@ public class HRRNScheduler : Scheduler
             process_queue_.Add(arrival_process_queue.Dequeue());
         }
 
-        // 프로세서에 프로세스를 할당 가능할때만 sorting
         if (ProcessorManager.instance.canUse() && process_queue_.Count != 0)
         {
             foreach (var process in process_queue_)

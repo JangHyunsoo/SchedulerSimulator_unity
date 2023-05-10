@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-public class STRNScheduler : Scheduler
+public class SRTNScheduler : Scheduler
 {
     public class STRNCompare : IComparer<Process>
     {
