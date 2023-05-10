@@ -550,7 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_dont_destroy: 0
   schedule_way_: 4
-  time_quantum: 2
+  time_quantum_: 2
 --- !u!114 &186910678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1813,7 +1813,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 955859148}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 186910680}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: loadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SetUpScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &969186668
 GameObject:
   m_ObjectHideFlags: 0

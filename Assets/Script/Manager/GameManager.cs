@@ -24,8 +24,8 @@ public class GameManager : Singleton<GameManager>
         UIManager.instance.init();
     }
     
-    public void restart()
+    public void loadScene(string name)
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(name);
     }
 }

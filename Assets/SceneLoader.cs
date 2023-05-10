@@ -10,6 +10,6 @@ public class SceneLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("setup");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(loaded_scene_);
     }
 }

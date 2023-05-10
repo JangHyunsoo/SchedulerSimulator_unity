@@ -24,9 +24,10 @@ public class JobSimulator : Singleton<JobSimulator>
     public void init()
     {
         job_queue_.Clear();
+        
+        // load data
+        job_arr_ = SceneDataManager.instance.getJobs().Clone() as Job[];
 
-        // load scene data
-        job_arr_ = SceneDataManager.instance.getJobs();
         var job_color_arr = SceneDataManager.instance.getJobColors();
 
         for (int i = 0; i < job_color_arr.Length; i++)
@@ -35,7 +36,6 @@ public class JobSimulator : Singleton<JobSimulator>
         }
 
         color_table[-1] = Color.clear;
-
         
         carryQueue();
     }
