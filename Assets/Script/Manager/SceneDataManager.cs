@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneDataManager : Singleton<SceneDataManager>
 {
     private Job[] job_arr_ = new Job[0];
+    private Color[] job_color_arr_ = new Color[0];
     private ScheduleWay schedule_way_ = ScheduleWay.FCFS;
     public ScheduleWay schedule_way { get => schedule_way_; set => schedule_way_ = value; }
 
@@ -26,4 +27,30 @@ public class SceneDataManager : Singleton<SceneDataManager>
     {
         return job_arr_;
     }    
+
+    public void setJobArr(Job[] _job_arr)
+    {
+        job_arr_ = _job_arr;
+    }
+
+    public void setJobColorArr(Color[] _colors)
+    {
+        job_color_arr_ = _colors;
+    }
+
+    public void setPCore(int _p_count)
+    {
+        p_core_count_ = _p_count;
+    }
+
+    public void setECore(int _e_count)
+    {
+        e_core_count_ = _e_count;
+    }
+
+    public void setScheduleWay(ScheduleWay _way, int _time_quantum)
+    {
+        schedule_way_ = _way;
+        time_quantum_ = _time_quantum;
+    }
 }

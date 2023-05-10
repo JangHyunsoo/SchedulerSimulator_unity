@@ -18,9 +18,16 @@ public class SetUpManager : Singleton<SetUpManager>
 
     private List<Job> job_list_ = new List<Job>();
     public List<Job> job_list { get => job_list_; }
+    private List<Color> job_color_list_ = new List<Color>();
 
     [SerializeField]
     private ProcessorSetUpUI processor_set_up_ui_;
+
+    [SerializeField]
+    private ProcessInfoTable process_info_table_ui_;
+
+    [SerializeField]
+    private ScheduleSelector schedule_selector_ui_;
 
     public void Start()
     {
@@ -34,15 +41,44 @@ public class SetUpManager : Singleton<SetUpManager>
 
         foreach (var job in job_arr)
         {
-            job_list_.Add(job);
+            addJob(job.arrival_time, job.brust_time);
         }
 
         processor_set_up_ui_.init();
+        process_info_table_ui_.init();
+        schedule_selector_ui_.init(schedule_way_);
     }
 
     public void addJob(int _at, int _bt)
     {
-        job_list_.Add(new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt });
+        job_color_list_.Add(new Color(Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f)));
+        Job job = new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt };
+        job_list_.Add(job);
+        process_info_table_ui_.addJob(job);
+    }
+
+    public void addJob(Color _color, int _at, int _bt)
+    {
+        job_color_list_.Add(_color);
+        Job job = new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt };
+        job_list_.Add(job);
+        process_info_table_ui_.addJob(job);
+    }
+
+    public void deleteJob(int _no)
+    {
+        job_list_.RemoveAt(_no);
+        job_color_list_.RemoveAt(_no);
+        for (int i = _no; i < job_list_.Count; i++)
+        {
+            job_list_[i].job_no = i;
+        }
+        process_info_table_ui_.removeJob(_no);
+    }
+
+    public Color getJobColor(int _no)
+    {
+        return job_color_list_[_no];
     }
 
     public void increasePCore()
@@ -70,6 +106,25 @@ public class SetUpManager : Singleton<SetUpManager>
         {
             e_core_count_--;
             processor_set_up_ui_.deleteEcore();
+        }
+    }
+
+    public void setSchedule(ScheduleWay _way)
+    {
+        schedule_way_ = _way;
+    }
+
+    public void onClickApply()
+    {
+        if (e_core_count + p_core_count > 0)
+        {
+            SceneDataManager.instance.setJobArr(job_list_.ToArray());
+            SceneDataManager.instance.setJobColorArr(job_color_list_.ToArray());
+            SceneDataManager.instance.setECore(e_core_count_);
+            SceneDataManager.instance.setPCore(p_core_count_);
+            SceneDataManager.instance.setScheduleWay(schedule_way_, time_quantum_);
+
+
         }
     }
 }

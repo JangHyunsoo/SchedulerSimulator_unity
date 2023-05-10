@@ -30,8 +30,8 @@ public class ProcessRandomSetup : MonoBehaviour
 
             for (int i = 0; i < process_count; i++)
             {
-                int bt = Random.Range(bt_min, bt_max);
-                int at = Random.Range(at_min, at_max);
+                int bt = Random.Range(bt_min, bt_max + 1);
+                int at = Random.Range(at_min, at_max + 1);
                 SetUpManager.instance.addJob(at, bt);
             }
         }
@@ -66,12 +66,26 @@ public class ProcessRandomSetup : MonoBehaviour
 
     public void changeBTMax(string _num)
     {
-        bt_max_text_.text = underZero(_num);
+        if (_num.Contains("-") || _num == "" || _num == "0")
+        {
+            bt_min_text_.text = "1";
+        }
+        else
+        {
+            bt_min_text_.text = _num;
+        }
     }
 
     public void changeBTMin(string _num)
     {
-        bt_min_text_.text = underZero(_num);
+        if(_num.Contains("-") || _num == "" || _num == "0")
+        {
+            bt_min_text_.text = "1";
+        }
+        else
+        {
+            bt_min_text_.text = _num;
+        }
     }
 
     private string underZero(string _num)
@@ -84,7 +98,7 @@ public class ProcessRandomSetup : MonoBehaviour
     public void increaseProcessCount()
     {
         int count = int.Parse(process_count_text_.text) + 1;
-        Debug.Log(count);
+
         if(count >= 1000)
         {
             process_count_text_.text = "999";
@@ -191,9 +205,9 @@ public class ProcessRandomSetup : MonoBehaviour
     public void reduceBTMax()
     {
         int count = int.Parse(bt_max_text_.text) - 1;
-        if (count < 0)
+        if (count < 1)
         {
-            bt_max_text_.text = "0";
+            bt_max_text_.text = "1";
         }
         else
         {
@@ -204,9 +218,9 @@ public class ProcessRandomSetup : MonoBehaviour
     public void reduceBTMin()
     {
         int count = int.Parse(bt_min_text_.text) - 1;
-        if (count < 0)
+        if (count < 1)
         {
-            bt_min_text_.text = "0";
+            bt_min_text_.text = "1";
         }
         else
         {

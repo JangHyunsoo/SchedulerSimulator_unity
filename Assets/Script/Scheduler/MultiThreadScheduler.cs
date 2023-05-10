@@ -59,7 +59,7 @@ public class MultiThreadScheduler : Scheduler
             {
                 int burst_time = process.burst_time;
                 CoreCount core_count = psr_mgr.countEachTypeAvailable();
-                List<AllocData> alloc_list = calAllocData(core_count, burst_time);
+                List<AllocData> alloc_list = dividProcess(core_count, burst_time);
                 if(isBenefit(alloc_list, burst_time))
                 {
                     process.setResponseTime(_total_tick);
@@ -83,7 +83,7 @@ public class MultiThreadScheduler : Scheduler
         psr_mgr.tick(_total_tick);
     }
 
-    private List<AllocData> calAllocData(CoreCount _core_count, int _burst_time)
+    private List<AllocData> dividProcess(CoreCount _core_count, int _burst_time)
     {
         List<AllocData> ret = new List<AllocData>();
         int e_count = _core_count.e_count;

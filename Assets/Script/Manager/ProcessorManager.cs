@@ -33,15 +33,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
         UIManager.instance.power_text.text = getPower().ToString();
     }
 
-    public bool isDone()
-    {
-        foreach (Processor processor in processor_arr_)
-        {
-            if (processor.isRun()) return false;
-        }
-        return true;
-    }
-
     public CoreCount countEachTypeAvailable()
     {
         CoreCount core_count = new CoreCount { e_count = 0, p_count = 0 };
@@ -68,6 +59,7 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return count;
     }
 
+    // remove 
     public bool canUse()
     {
         foreach (Processor processor in processor_arr_)
