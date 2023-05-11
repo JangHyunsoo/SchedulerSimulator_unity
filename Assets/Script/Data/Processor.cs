@@ -67,7 +67,7 @@ public class Processor
 
     public void check(int _total_tick)
     {
-        if (cur_process_.is_dead)
+        if (cur_process_.is_terminaled)
         {
             cur_process_.setEndTime(_total_tick + 1);
             cur_process_.finishProcess();

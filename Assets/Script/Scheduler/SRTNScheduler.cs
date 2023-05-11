@@ -7,11 +7,11 @@ public class SRTNScheduler : Scheduler
     {
         public int Compare(Process one, Process other)
         {
-            if (one.cur_burst_time == other.cur_burst_time)
+            if (one.remaining_time == other.remaining_time)
             {
                 return 0;
             }
-            else return other.cur_burst_time - one.cur_burst_time;
+            else return other.remaining_time - one.remaining_time;
         }
     }
 
@@ -34,22 +34,24 @@ public class SRTNScheduler : Scheduler
         UIManager.instance.chart_process_queue_ui.updateUI(process_queue_.ToArray());
     }
 
-    public override void logic(int _total_tick)
+    public override void tick(int _total_tick)
     {
         var psr_mgr = ProcessorManager.instance;
 
         while (process_queue_.count != 0)
         {
-            var max_pair = psr_mgr.maxCurBurstTime();
+            var processor = psr_mgr.getMaxRemainingTimeProcessor();
             var process = process_queue_.peek();
+            int rm_processor;
+            if (processor.cur_process == null) rm_processor = 987654321;
+            else rm_processor = processor.cur_process.remaining_time;
 
-            if(max_pair.Value <= process.cur_burst_time)
+            if (rm_processor <= process.remaining_time)
             {
                 break;
             }
             else
             {
-                Processor processor = psr_mgr.getProcessor(max_pair.Key);
                 Process swap_process = processor.swapProcess(process);
                 process_queue_.pop();
                 if(swap_process != null)

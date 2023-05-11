@@ -5,12 +5,7 @@ public class Scheduler
 {
     public virtual void init() { }
     public virtual void queuing(int _total_tick) { }
-    public virtual void logic(int _total_tick) { }
-
-    public void tick(int _total_tick)
-    {
-        logic(_total_tick);
-    }
+    public virtual void tick(int _total_tick) { }
 
     protected Queue<T> getArrivalProcess<T>(int _total_tick) where T : Process, new()
     {

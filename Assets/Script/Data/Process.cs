@@ -8,26 +8,26 @@ public class Process
 	private int arrival_time_;
 	private int burst_time_;
 	private int response_time_;
-	private int cur_burst_time_;
+	private int remaining_time_;
 	private int end_time_;
 	private float response_ratio_;
 
 	public int no { get => process_no_; }
 	public int arrival_time { get => arrival_time_; }
 	public int burst_time { get => burst_time_; }
-	public int cur_burst_time { get => cur_burst_time_; }
+	public int remaining_time { get => remaining_time_; }
 	public int waiting_time { get => response_time_ - arrival_time_; }
 	public int total_time { get => end_time_ - arrival_time_; }
 	public float normalized_total_time { get => (float)total_time / (float)burst_time; }
 	public float response_ratio { get => response_ratio_; }
-	public bool is_dead { get => cur_burst_time_ <= 0; }
+	public bool is_terminaled { get => remaining_time_ <= 0; }
 
 	public Process()
     {
 		process_no_ = 0;
 		arrival_time_ = 0;
 		burst_time_ = 0;
-		cur_burst_time_ = 0;
+		remaining_time_ = 0;
 		response_ratio_ = 0f;
 		response_time_ = -1;
 	}
@@ -37,7 +37,7 @@ public class Process
 		process_no_ = _no;
 		arrival_time_ = 0;
 		burst_time_ = _burst_time;
-		cur_burst_time_ = burst_time;
+		remaining_time_ = burst_time;
 		response_ratio_ = 0f;
 		response_time_ = -1;
 	}
@@ -47,7 +47,7 @@ public class Process
 		process_no_ = _job.job_no;
 		arrival_time_ = _job.arrival_time;
 		burst_time_ = _job.brust_time;
-		cur_burst_time_ = _job.brust_time;
+		remaining_time_ = _job.brust_time;
 		response_ratio_ = 0f;
 		response_time_ = -1;
 	}
@@ -57,7 +57,7 @@ public class Process
 		process_no_ = _job.job_no;
 		arrival_time_ = _job.arrival_time;
 		burst_time_ = _job.brust_time;
-		cur_burst_time_ = _job.brust_time;
+		remaining_time_ = _job.brust_time;
 		response_ratio_ = 0f;
 		response_time_ = -1;
 	}
@@ -70,16 +70,16 @@ public class Process
 		{
 			setResponseTime(_total_tick);
 		}
-		cur_burst_time_ -= _work;
-		if (cur_burst_time_ < 0)
+		remaining_time_ -= _work;
+		if (remaining_time_ < 0)
 		{
-			cur_burst_time_ = 0;
+			remaining_time_ = 0;
 		}
 	}
 
 	public void setBurstTime(int _burst_time)
     {
-		cur_burst_time_ = _burst_time;
+		remaining_time_ = _burst_time;
     }
 
 	public void setEndTime(int t)

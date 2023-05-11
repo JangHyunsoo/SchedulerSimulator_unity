@@ -21,7 +21,7 @@ public class ArrivalProcessSlot : MonoBehaviour
         process_no_text_.text = process.no.ToString();
         arrival_time_text_.text = process.arrival_time.ToString();
         brust_time_text_.text = process.burst_time.ToString();
-        remain_time_text_.text = process.cur_burst_time.ToString();
+        remain_time_text_.text = process.remaining_time.ToString();
 
         process_panel_image_.color = JobSimulator.instance.getProcessColor(process.no);
     }

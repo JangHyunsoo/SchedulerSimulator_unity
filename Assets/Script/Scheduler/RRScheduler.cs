@@ -28,7 +28,7 @@ class RRScheduler : Scheduler
         UIManager.instance.chart_process_queue_ui.updateUI(process_queue_.ToArray());
     }
 
-    public override void logic(int _total_tick)
+    public override void tick(int _total_tick)
     {
         var psr_mgr = ProcessorManager.instance;
 

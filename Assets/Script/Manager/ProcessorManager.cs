@@ -94,37 +94,25 @@ public class ProcessorManager : Singleton<ProcessorManager>
         return null;
     }
 
-    public KeyValuePair<int, int> maxCurBurstTime()
+    public Processor getMaxRemainingTimeProcessor()
     {
-        int max_idx = -1;
-        int max_value = -1;
+        Processor max_processor = processor_arr_[0];
 
-        for (int i = 0; i < processor_arr_.Length; i++)
+        for (int i = 1; i < processor_arr_.Length; i++)
         {
-            int burst_time = 987654321;
+            int bt_max_processor, bt_cur_processor;
+            if (max_processor.cur_process == null) bt_max_processor = 987654321;
+            else bt_max_processor = max_processor.cur_process.remaining_time;
+            if (processor_arr_[i].cur_process == null) bt_cur_processor = 987654321;
+            else bt_cur_processor = processor_arr_[i].cur_process.remaining_time;
 
-            if (processor_arr_[i].isRun())
+            if (bt_max_processor < bt_cur_processor)
             {
-                burst_time = processor_arr_[i].cur_process.cur_burst_time;
-            }
-
-            if (burst_time > max_value)
-            {
-                max_idx = i;
-                max_value = burst_time;
+                max_processor = processor_arr_[i];
             }
         }
 
-        return new KeyValuePair<int, int>(max_idx, max_value);
-    }
-
-    public Processor getProcessor(int idx)
-    {
-        if (processor_arr_.Length <= idx)
-        {
-            return null;
-        }
-        return processor_arr_[idx];
+        return max_processor;
     }
 
     public void appendGanttChart(int _cur_tick)

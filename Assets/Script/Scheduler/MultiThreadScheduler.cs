@@ -32,7 +32,7 @@ public class MultiThreadScheduler : Scheduler
         UIManager.instance.chart_process_queue_ui.updateUI(process_queue_.ToArray());
     }
 
-    public override void logic(int _total_tick)
+    public override void tick(int _total_tick)
     {
         var psr_mgr = ProcessorManager.instance;
 
@@ -59,11 +59,11 @@ public class MultiThreadScheduler : Scheduler
             {
                 int burst_time = process.burst_time;
                 CoreCount core_count = psr_mgr.countEachTypeAvailable();
-                List<DivideInfo> alloc_list = dividProcess(core_count, burst_time);
-                if(isBenefit(alloc_list, burst_time))
+                List<DivideInfo> divide_info_list = dividProcess(core_count, burst_time);
+                if(isBenefit(divide_info_list, burst_time))
                 {
                     process.setResponseTime(_total_tick);
-                    foreach (var alloc_data in alloc_list)
+                    foreach (var alloc_data in divide_info_list)
                     {
                         var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type);
                         processor.addProcess(process.makeSubProcess(alloc_data.burst_time));
@@ -97,7 +97,7 @@ public class MultiThreadScheduler : Scheduler
 
         if (mod_tick % 2 == 1)
         {
-            if (_core_count.e_count > 0)
+            if (e_count > 0)
             {
                 ret.Add(new DivideInfo { burst_time = 1 + share_tick, core_type = ProcessorType.EFFIC });
                 mod_tick -= 1;
@@ -139,12 +139,12 @@ public class MultiThreadScheduler : Scheduler
         return ret;
     }
 
-    private bool isBenefit(List<DivideInfo> _alloc_data_list, int _burst_time)
+    private bool isBenefit(List<DivideInfo> _divide_info_list, int _burst_time)
     {
         int multi_burst = 0;
         int core_perform = 1;
         
-        foreach (var alloc_data in _alloc_data_list)
+        foreach (var alloc_data in _divide_info_list)
         {
             int type_perform = alloc_data.core_type == ProcessorType.EFFIC ? 1 : 2;
             int sub_brust_time = alloc_data.burst_time / type_perform + alloc_data.burst_time % type_perform;
