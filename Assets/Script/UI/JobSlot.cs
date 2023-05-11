@@ -13,6 +13,8 @@ public class JobSlot : MonoBehaviour
     private Text arrival_time_text_;
     [SerializeField]
     private Text brust_time_text_;
+    [SerializeField]
+    private Text remaining_time_text_;
 
 
     public void setJob(Job job)
@@ -20,6 +22,12 @@ public class JobSlot : MonoBehaviour
         job_no_text_.text = job.job_no.ToString();
         arrival_time_text_.text = job.arrival_time.ToString();
         brust_time_text_.text = job.brust_time.ToString();
+        remaining_time_text_.text = job.brust_time.ToString();
         job_panel_image_.color = JobSimulator.instance.getProcessColor(job.job_no);
+    }
+
+    public void setRemainingTime(int _remaining_time)
+    {
+        remaining_time_text_.text = _remaining_time.ToString();
     }
 }

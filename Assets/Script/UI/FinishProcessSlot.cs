@@ -26,8 +26,8 @@ public class FinishProcessSlot : MonoBehaviour
         arrival_time_text_.text = process.arrival_time.ToString();
         brust_time_text_.text = process.burst_time.ToString();
         waiting_time_text_.text = process.waiting_time.ToString();
-        total_time_text_.text = process.total_time.ToString();
-        normalized_total_time_text_.text = process.normalized_total_time.ToString();
+        total_time_text_.text = process.turn_around_time.ToString();
+        normalized_total_time_text_.text = process.normalized_turn_around_time.ToString();
 
         process_panel_image_.color = JobSimulator.instance.getProcessColor(process.no);
     }

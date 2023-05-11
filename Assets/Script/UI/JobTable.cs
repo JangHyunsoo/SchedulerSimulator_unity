@@ -12,11 +12,12 @@ public class JobTable : MonoBehaviour
     private RectTransform job_table_rect_;
 
     private List<JobSlot> job_slot_list_ = new List<JobSlot>();
-
+    private Dictionary<int, JobSlot> job_slot_dic_ = new Dictionary<int, JobSlot>();
 
     public void init()
     {
         List<Transform> del_list = new List<Transform>();
+        job_slot_dic_.Clear();
 
         // remove job slot child
         for (int i = 0; i < job_slot_parent_.childCount; i++)
@@ -46,7 +47,13 @@ public class JobTable : MonoBehaviour
         JobSlot js = go.GetComponent<JobSlot>();
         js.setJob(_job);
         job_slot_list_.Add(js);
+        job_slot_dic_[_job.job_no] = js;
         autoSize();
+    }
+
+    public void updateRemainingTime(int _no, int _remaining_time)
+    {
+        job_slot_dic_[_no].setRemainingTime(_remaining_time);
     }
 
     public void autoSize()

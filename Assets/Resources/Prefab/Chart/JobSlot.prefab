@@ -463,6 +463,7 @@ MonoBehaviour:
   job_no_text_: {fileID: 6264300754832300582}
   arrival_time_text_: {fileID: 6264300753716104775}
   brust_time_text_: {fileID: 6264300755010070834}
+  remaining_time_text_: {fileID: 6264300755600429555}
 --- !u!1 &6264300755460901661
 GameObject:
   m_ObjectHideFlags: 0

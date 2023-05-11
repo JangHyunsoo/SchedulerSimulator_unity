@@ -17,8 +17,8 @@ public class Process
 	public int burst_time { get => burst_time_; }
 	public int remaining_time { get => remaining_time_; }
 	public int waiting_time { get => response_time_ - arrival_time_; }
-	public int total_time { get => end_time_ - arrival_time_; }
-	public float normalized_total_time { get => (float)total_time / (float)burst_time; }
+	public int turn_around_time { get => end_time_ - arrival_time_; }
+	public float normalized_turn_around_time { get => (float)turn_around_time / (float)burst_time; }
 	public float response_ratio { get => response_ratio_; }
 	public bool is_terminaled { get => remaining_time_ <= 0; }
 
@@ -75,6 +75,7 @@ public class Process
 		{
 			remaining_time_ = 0;
 		}
+		UIManager.instance.job_table_ui.updateRemainingTime(no, remaining_time_);
 	}
 
 	public void setBurstTime(int _burst_time)
