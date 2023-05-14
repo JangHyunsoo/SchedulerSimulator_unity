@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Jobs.LowLevel.Unsafe;
 using UnityEditor;
 using UnityEngine;
 
@@ -41,7 +40,7 @@ public class ResultBuilder : Singleton<ResultBuilder>
         cur_result_info_.at_stdev = (float)Utility.standardDeviation(at_list);
         cur_result_info_.bt_mean = (float)Utility.average(bt_list);
         cur_result_info_.bt_stdev = (float)Utility.standardDeviation(bt_list);
-        cur_result_info_.waiting_time_mean   = (float)Utility.average(wt_list);
+        cur_result_info_.waiting_time_mean = (float)Utility.average(wt_list);
         cur_result_info_.turn_around_time_mean = (float)Utility.average(tt_list);
         cur_result_info_.normalized_turn_around_time_mean = (float)Utility.average(ntt_list);
     }

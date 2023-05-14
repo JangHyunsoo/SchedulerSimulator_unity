@@ -32,7 +32,7 @@ public class Utility
     {
         double result = 0;
 
-        foreach (int i in sequence)
+        foreach (double i in sequence)
         {
             result += i;
         }
