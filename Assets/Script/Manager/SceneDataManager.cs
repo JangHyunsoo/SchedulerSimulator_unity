@@ -18,9 +18,20 @@ public class SceneDataManager : Singleton<SceneDataManager>
     private int p_core_count_ = 2;
     public int p_core_count { get => p_core_count_; set => p_core_count_ = value; }
 
+    private List<ResultInfo> results = new List<ResultInfo>();
+
     public void init()
     {
+    }
 
+    public void addResult(ResultInfo result)
+    {
+        results.Add(result);
+    }
+
+    public List<ResultInfo> getResultInfo()
+    {
+        return results;
     }
 
     public Job[] getJobs()
@@ -57,5 +68,14 @@ public class SceneDataManager : Singleton<SceneDataManager>
     {
         schedule_way_ = _way;
         time_quantum_ = _time_quantum;
+    }
+
+    public void setScenario(Scenario _scenario)
+    {
+        setJobArr(_scenario.jobs);
+        setJobColorArr(_scenario.colors);
+        setPCore(_scenario.p_core_count);
+        setECore(_scenario.e_core_count);
+        setScheduleWay(_scenario.schedule_way, _scenario.quantum_time);
     }
 }

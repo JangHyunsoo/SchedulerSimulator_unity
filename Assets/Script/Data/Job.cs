@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Job
 {
     public int job_no;

@@ -10,7 +10,7 @@ public class Processor
     private bool is_run_;
     private bool prev_run_;
     private float power_consumption_;
-    private List<int> history_list_ = new List<int>();
+    private List<Process> history_list_ = new List<Process>();
 
     public int no { get => processor_no_; }
     public ProcessorType type { get => processor_type_; }
@@ -54,14 +54,14 @@ public class Processor
             if (!prev_run_) power_consumption_ += processor_type_ == ProcessorType.EFFIC ? 0.1f : 0.5f;
             power_consumption_ += processor_type_ == ProcessorType.EFFIC ? 1f : 3f;
             cur_process_.tick(_total_tick, processor_type_ == ProcessorType.EFFIC ? 1 : 2);
-            history_list_.Add(cur_process_.no);
+            history_list_.Add(cur_process_);
             check(_total_tick);
             prev_run_ = true;
         }
         else
         {
             prev_run_ = false;
-            history_list_.Add(-1);
+            history_list_.Add(null);
         }
     }
 
@@ -76,7 +76,7 @@ public class Processor
         }
     }
 
-    public int getHistory(int _step)
+    public Process getHistory(int _step)
     {
         return history_list_[_step];
     }

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3eee9f5fbbcf547ae8d4a83d1ab2ef, type: 3}
+  m_Name: '#7'
+  m_EditorClassIdentifier: 
+  scenario_name: '#DPS2'
+  e_core_count: 1
+  p_core_count: 2
+  schedule_way: 5
+  quantum_time: 0
+  jobs:
+  - job_no: 0
+    arrival_time: 0
+    brust_time: 5
+  - job_no: 1
+    arrival_time: 1
+    brust_time: 5
+  - job_no: 2
+    arrival_time: 2
+    brust_time: 5
+  colors:
+  - {r: 0.36584455, g: 0.81517386, b: 0.3110065, a: 1}
+  - {r: 0.27508742, g: 0.32528287, b: 0.97535884, a: 1}
+  - {r: 0.09867835, g: 0.9223765, b: 0.6246466, a: 1}

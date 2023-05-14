@@ -10,6 +10,8 @@ public class ProcessorManager : Singleton<ProcessorManager>
     private int e_core_count_ = 2;
     private Processor[] processor_arr_;
 
+    public int p_core_count { get => p_core_count_; }
+    public int e_core_count { get => e_core_count_; }  
     public int processor_count { get => p_core_count_ + e_core_count_; }
 
     public void init()
@@ -33,7 +35,6 @@ public class ProcessorManager : Singleton<ProcessorManager>
         {
             processor.tick(total_tick);
         }
-        UIManager.instance.power_text.text = getPower().ToString();
     }
 
     public CoreCount countEachTypeAvailable()
@@ -119,22 +120,25 @@ public class ProcessorManager : Singleton<ProcessorManager>
     {
         for (int i = 0; i < processor_count; i++)
         {
-            int history = processor_arr_[i].getHistory(_cur_tick);
+            Process history = processor_arr_[i].getHistory(_cur_tick);
             UIManager.instance.processor_chart_ui.addChartUnit(history);
         }
-        UIManager.instance.processor_chart_ui.addTick();
+        UIManager.instance.processor_chart_ui.addTick(_cur_tick);
         UIManager.instance.processor_chart_ui.autoWidthSize();
     }
 
-    public float getPower()
+    public float getPower(ProcessorType _type)
     {
         float ret = 0f;
         foreach (var psr in processor_arr_)
         {
-            ret += psr.power_consumption;
+            if (psr.type == _type)
+            {
+                ret += psr.power_consumption;
+            }
         }
 
-        ret = Mathf.Floor(ret * 100f) / 100f;
+        ret = Mathf.Floor(ret * 10f) / 10f;
 
         return ret;
     }

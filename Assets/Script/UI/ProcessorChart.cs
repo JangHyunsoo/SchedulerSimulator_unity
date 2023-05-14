@@ -21,7 +21,9 @@ public class ProcessorChart : MonoBehaviour
 
     [Header("Processor")]
     [SerializeField]
-    private GameObject chart_processor_unit_prefab_;
+    private GameObject chart_p_processor_unit_prefab_;
+    [SerializeField]
+    private GameObject chart_e_processor_unit_prefab_;
     [SerializeField]
     private Transform chart_processor_unit_parent_;
     [SerializeField]
@@ -49,6 +51,8 @@ public class ProcessorChart : MonoBehaviour
     [SerializeField]
     private GameObject chart_tick_unit_prefab_;
     [SerializeField]
+    private GameObject first_chart_tick_unit_prefab_;
+    [SerializeField]
     private Transform chart_tick_unit_parent_;
     [SerializeField]
     private RectTransform chart_tick_rect_transfrom_;
@@ -56,6 +60,8 @@ public class ProcessorChart : MonoBehaviour
     private ScrollRect chart_tick_scroll_rect_;
     [SerializeField]
     private GridLayoutGroup chart_tick_grid_;
+    [SerializeField]
+    private RectTransform rect_tick_;
 
     [SerializeField]
     private Color start_color;
@@ -76,10 +82,31 @@ public class ProcessorChart : MonoBehaviour
         chart_color_table.Clear();
         chart_unit_queue_.Clear();
 
+        int p_core_count = ProcessorManager.instance.p_core_count;
+        int e_core_count = ProcessorManager.instance.e_core_count;
+
         for (int i = 0; i < processor_size; i++)
         {
             Color color = Color.Lerp(start_color, target_color, 1f / processor_size * i);
-            addProcessor(color);
+            if(p_core_count > 0)
+            {
+                addProcessor(ProcessorType.PERFOR ,color);
+                p_core_count--;
+            }
+            else
+            {
+                addProcessor(ProcessorType.EFFIC, color);
+            }
+        }
+
+        if(processor_size < 4) 
+        {
+            rect_tick_.position = new Vector2(rect_tick_.position.x, rect_tick_.position.y + 84 * (4 - processor_size));
+        }
+
+        for (int i = 0;i < 21; i++)
+        {
+            addTick(100);
         }
 
         autoHeightSize();
@@ -123,38 +150,43 @@ public class ProcessorChart : MonoBehaviour
         }
     }
 
-    public void addChartUnit(int _history)
+    public void addChartUnit(Process _history)
     {
         GameObject go = GameObject.Instantiate(chart_process_unit_prefab_);
-        go.GetComponent<ChartUnit>().setColor(JobSimulator.instance.getProcessColor(_history));
+        var cu = go.GetComponent<ChartUnit>();
+        if (_history != null)
+        {
+            cu.setColor(JobSimulator.instance.getProcessColor(_history.no));
+        }
+        else
+        {
+            cu.setColor(JobSimulator.instance.getProcessColor(-1));
+        }
+        cu.setProcess(_history);
         go.transform.SetParent(chart_process_unit_parent_);
         chart_unit_queue_.Add(go.transform);
     }
 
-    public void addProcessor(Color color)
+    public void addProcessor(ProcessorType type, Color color)
     {
-        var go1 = GameObject.Instantiate(chart_processor_unit_prefab_);
+        GameObject processor_unit_prefab = type == ProcessorType.PERFOR ? chart_p_processor_unit_prefab_ : chart_e_processor_unit_prefab_;
+        var go1 = GameObject.Instantiate(processor_unit_prefab);
         go1.transform.SetParent(chart_processor_unit_parent_);
         var go2 = GameObject.Instantiate(chart_background_unit_prefab_);
         go2.transform.SetParent(chart_background_unit_parent_);
         go2.GetComponent<Image>().color = color;
     }
 
-    public void assginChartUnit(List<int> _progress_history)
+    public void addTick(int _total_tick = 20)
     {
-        foreach (var progress_info in _progress_history)
+        if (_total_tick >= tick_list_.Count)
         {
-            addChartUnit(progress_info);
+            GameObject tick_prefab = tick_list_.Count == 0 ? first_chart_tick_unit_prefab_ : chart_tick_unit_prefab_;
+            GameObject go = GameObject.Instantiate(tick_prefab);
+            go.transform.SetParent(chart_tick_unit_parent_);
+            go.GetComponentInChildren<Text>().text = (tick_list_.Count + 1).ToString();
+            tick_list_.Add(go.transform);
         }
-        addTick();
-    }
-
-    public void addTick()
-    {
-        GameObject go = GameObject.Instantiate(chart_tick_unit_prefab_);
-        go.transform.SetParent(chart_tick_unit_parent_);
-        go.GetComponentInChildren<Text>().text = tick_list_.Count.ToString();
-        tick_list_.Add(go.transform);
     }
 
     public void setAutoWidthSize()

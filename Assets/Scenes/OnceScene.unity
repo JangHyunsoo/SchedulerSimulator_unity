@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 404107415}
   - component: {fileID: 404107414}
   - component: {fileID: 404107416}
+  - component: {fileID: 404107417}
   m_Layer: 0
   m_Name: SceneDataManager
   m_TagString: Untagged
@@ -182,6 +183,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor_idle_: {fileID: 2800000, guid: 5f37bb7fa9b639147bfed96cb18614a1, type: 3}
   cursor_click_: {fileID: 2800000, guid: c96a0b3ed7e46d34fa802cff52a4b2b5, type: 3}
+--- !u!114 &404107417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404107413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74496ea1bb082724487e37b4935730e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  is_dont_destroy: 0
+  scenario_arr_:
+  - {fileID: 11400000, guid: 447384443cb6b53448dc1a5375934b02, type: 2}
+  - {fileID: 11400000, guid: bc50784a509ed0d42a6bc041c8fcbea9, type: 2}
+  - {fileID: 11400000, guid: d8247e0aeba13fc48bd1f6fd6b26f3c3, type: 2}
+  - {fileID: 11400000, guid: 0cf58381e331d1c4baba7f8ea6be8087, type: 2}
+  - {fileID: 11400000, guid: d7b3ebc26222b6642932c14c784cba72, type: 2}
+  - {fileID: 11400000, guid: 46ef51a8367520e489e30b9b90da3218, type: 2}
+  - {fileID: 11400000, guid: c93c0bdf1375e394cae3dbb98f8ca080, type: 2}
 --- !u!1 &685045542
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d80a03f098f2e04f8db36c27cb704a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loaded_scene_: SetUpScene
+  loaded_scene_: SetupScene
 --- !u!4 &685045544
 Transform:
   m_ObjectHideFlags: 0

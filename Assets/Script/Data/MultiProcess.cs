@@ -31,7 +31,7 @@ public class MultiProcess : Process
         complete_process_++;
         if (complete_process_ == divided_process_)
         {
-            MultiThreadScheduler scheduler = (MultiThreadScheduler)SchedulerManager.instance.cur_scheduler;
+            DPSScheduler scheduler = (DPSScheduler)SchedulerManager.instance.cur_scheduler;
             setBurstTime(1);
             scheduler.addMergeProcess(this);
         }

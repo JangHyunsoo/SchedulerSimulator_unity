@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3eee9f5fbbcf547ae8d4a83d1ab2ef, type: 3}
+  m_Name: '#2'
+  m_EditorClassIdentifier: 
+  scenario_name: '#RR'
+  e_core_count: 1
+  p_core_count: 0
+  schedule_way: 1
+  quantum_time: 2
+  jobs:
+  - job_no: 0
+    arrival_time: 0
+    brust_time: 3
+  - job_no: 1
+    arrival_time: 1
+    brust_time: 2
+  - job_no: 2
+    arrival_time: 2
+    brust_time: 1
+  colors:
+  - {r: 0.35737318, g: 0.9051002, b: 0.7688724, a: 1}
+  - {r: 0.0037219524, g: 0.4703713, b: 0.80683434, a: 1}
+  - {r: 0.34992045, g: 0.00990057, b: 0.92872226, a: 1}

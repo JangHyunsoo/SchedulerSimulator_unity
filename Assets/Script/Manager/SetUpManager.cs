@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class SetUpManager : Singleton<SetUpManager>
 {
@@ -22,6 +23,9 @@ public class SetUpManager : Singleton<SetUpManager>
     private List<Color> job_color_list_ = new List<Color>();
 
     [SerializeField]
+    private Scenario clear_scenario;
+
+    [SerializeField]
     private ProcessorSetUpUI processor_set_up_ui_;
 
     [SerializeField]
@@ -29,6 +33,11 @@ public class SetUpManager : Singleton<SetUpManager>
 
     [SerializeField]
     private ScheduleSelector schedule_selector_ui_;
+
+    [SerializeField]
+    private ScenarioTable scenario_table_ui_;
+    public ScenarioTable scenario_table_ui { get { return scenario_table_ui_; } }
+
 
     public void Start()
     {
@@ -39,20 +48,34 @@ public class SetUpManager : Singleton<SetUpManager>
         time_quantum_ = sdm.time_quantum;
 
         var job_arr = sdm.getJobs();
+        var job_color_arr = sdm.getJobColors();
+
+        foreach (var job_color in job_color_arr)
+        {
+            job_color_list_.Add(job_color);
+        }
 
         foreach (var job in job_arr)
         {
-            addJob(job.arrival_time, job.brust_time);
+            addJobWithoutColor(job.arrival_time, job.brust_time);
         }
 
         processor_set_up_ui_.init();
         process_info_table_ui_.init();
-        schedule_selector_ui_.init(schedule_way_);
+        schedule_selector_ui_.init(schedule_way_, time_quantum_);
+        scenario_table_ui_.init();
     }
 
     public void addJob(int _at, int _bt)
     {
         job_color_list_.Add(new Color(Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f), Random.RandomRange(0f, 1f)));
+        Job job = new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt };
+        job_list_.Add(job);
+        process_info_table_ui_.addJob(job);
+    }
+
+    public void addJobWithoutColor(int _at, int _bt)
+    {
         Job job = new Job { job_no = job_list_.Count, arrival_time = _at, brust_time = _bt };
         job_list_.Add(job);
         process_info_table_ui_.addJob(job);
@@ -110,9 +133,10 @@ public class SetUpManager : Singleton<SetUpManager>
         }
     }
 
-    public void setSchedule(ScheduleWay _way)
+    public void setSchedule(ScheduleWay _way, int _time_quantum)
     {
         schedule_way_ = _way;
+        time_quantum_ = _time_quantum;
     }
 
     public void onClickApply()
@@ -126,5 +150,11 @@ public class SetUpManager : Singleton<SetUpManager>
             SceneDataManager.instance.setScheduleWay(schedule_way_, time_quantum_);
             SceneManager.LoadScene("ChartScene");
         }
+    }
+
+    public void onClickClear()
+    {
+        SceneDataManager.instance.setScenario(clear_scenario);
+        SceneManager.LoadScene("SetupScene");
     }
 }

@@ -48,19 +48,10 @@ public class JobTable : MonoBehaviour
         js.setJob(_job);
         job_slot_list_.Add(js);
         job_slot_dic_[_job.job_no] = js;
-        autoSize();
     }
 
     public void updateRemainingTime(int _no, int _remaining_time)
     {
         job_slot_dic_[_no].setRemainingTime(_remaining_time);
-    }
-
-    public void autoSize()
-    {
-        float rect_height = job_slot_list_.Count * 42 + 2;
-        var rect = job_table_rect_.rect;
- 
-        job_table_rect_.sizeDelta = new Vector2(job_table_rect_.sizeDelta.x, rect_height);
     }
 }

@@ -48,19 +48,27 @@ public class SchedulerManager : Singleton<SchedulerManager>
 		if (!isDone())
         {
 			cur_scheduler_.tick(total_tick_);
-			ProcessorManager.instance.appendGanttChart(total_tick_++);
+            ProcessInfoDisplay.instance.upateUI();
+			UIManager.instance.schedule_info_ui.updateUI();
+            ProcessorManager.instance.appendGanttChart(total_tick_++);
 			queuing();
-		}
-	}
+            if (isDone())
+            {
+				ResultBuilder.instance.calResultInfo();
+                UIManager.instance.resut_table_ui.setCurResultSlot();
+                UIManager.instance.swap_button_ui.can_swap = true;
+				SceneDataManager.instance.addResult(ResultBuilder.instance.getCurResultInfo());
+            }
+
+        }
+    }
 
 	public void jump()
 	{
 		while (!isDone())
 		{
-			cur_scheduler_.tick(total_tick_);
-			ProcessorManager.instance.appendGanttChart(total_tick_++);
-			queuing();
-		}
+			step();
+        }
 	}
 
 	public void queuing()
@@ -92,8 +100,8 @@ public class SchedulerManager : Singleton<SchedulerManager>
 			case ScheduleWay.HRRN:
 				cur_scheduler_ = new HRRNScheduler();
 				break;
-			case ScheduleWay.OUR:
-				cur_scheduler_ = new MultiThreadScheduler();
+			case ScheduleWay.DPS:
+				cur_scheduler_ = new DPSScheduler();
 				break;
 			default:
 				break;

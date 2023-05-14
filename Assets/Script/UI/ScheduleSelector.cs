@@ -12,7 +12,7 @@ public class ScheduleSelector : MonoBehaviour
         ScheduleWay.SPN,
         ScheduleWay.SRTN,
         ScheduleWay.HRRN,
-        ScheduleWay.OUR
+        ScheduleWay.DPS
     };
     private Dictionary<ScheduleWay, int> schedule_dic_ = new Dictionary<ScheduleWay, int>()
     {
@@ -21,8 +21,7 @@ public class ScheduleSelector : MonoBehaviour
         { ScheduleWay.SPN, 2 },
         { ScheduleWay.SRTN, 3 },
         { ScheduleWay.HRRN, 4 },
-        { ScheduleWay.OUR, 5 },
-
+        { ScheduleWay.DPS, 5 },
     };
     private int cur_schedule_way_idx_ = 0;
 
@@ -31,9 +30,13 @@ public class ScheduleSelector : MonoBehaviour
     [SerializeField]
     private Color selected_color_;
 
-    public void init(ScheduleWay _way)
+    [SerializeField]
+    private InputField time_quantum_input_field_;
+
+    public void init(ScheduleWay _way, int _time_quantum)
     {
         cur_schedule_way_idx_ = schedule_dic_[_way];
+        time_quantum_input_field_.text = _time_quantum.ToString();
         clear();
         checkSchedule(cur_schedule_way_idx_);
     }
@@ -51,7 +54,12 @@ public class ScheduleSelector : MonoBehaviour
         clear();
         schedule_button_arr_[_idx].color = selected_color_;
         cur_schedule_way_idx_ = _idx;
-        SetUpManager.instance.setSchedule(schedule_way_arr_[_idx]);
+        SetUpManager.instance.setSchedule(schedule_way_arr_[_idx], int.Parse(time_quantum_input_field_.text));
+    }
 
+    public void changeInputField(string num)
+    {
+        time_quantum_input_field_.text = num;
+        SetUpManager.instance.setSchedule(schedule_way_arr_[cur_schedule_way_idx_], int.Parse(time_quantum_input_field_.text));
     }
 }

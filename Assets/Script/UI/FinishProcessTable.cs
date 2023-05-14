@@ -53,14 +53,5 @@ public class FinishProcessTable : MonoBehaviour
         FinishProcessSlot ps = go.GetComponent<FinishProcessSlot>();
         process_slot_list_.Add(ps);
         ps.setProcess(process);
-        autoSize();
-    }
-
-    public void autoSize()
-    {
-        float rect_height = process_slot_list_.Count * 42 + 2;
-        var rect = process_table_rect_.rect;
-
-        process_table_rect_.sizeDelta = new Vector2(process_table_rect_.sizeDelta.x, rect_height);
     }
 }

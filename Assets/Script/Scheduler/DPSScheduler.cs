@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiThreadScheduler : Scheduler
+public class DPSScheduler : Scheduler
 {
     public struct DivideInfo
     {
@@ -62,7 +62,7 @@ public class MultiThreadScheduler : Scheduler
                 List<DivideInfo> divide_info_list = dividProcess(core_count, burst_time);
                 if(isBenefit(divide_info_list, burst_time))
                 {
-                    process.setResponseTime(_total_tick);
+                    process.setComeTime(_total_tick);
                     foreach (var alloc_data in divide_info_list)
                     {
                         var processor = psr_mgr.getAvailableProcessor(alloc_data.core_type);
